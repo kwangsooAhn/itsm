@@ -7,8 +7,8 @@
 package co.brainz.itsm.archive.service
 
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.fileTransaction.dto.AliceFileDto
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.resourceManager.dto.AliceFileDto
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service
 @Service
 class ArchiveService(
     private val archiveRepository: ArchiveRepository,
-    private val aliceFileService: AliceFileService
+    private val aliceResourceProvider: AliceResourceProvider
 ) {
 
     private val archiveMapper: ArchiveMapper = Mappers.getMapper(ArchiveMapper::class.java)
@@ -65,7 +65,7 @@ class ArchiveService(
         var status = ZResponseConstants.STATUS.SUCCESS
         val archiveEntity = archiveRepository.save(archiveMapper.toArchiveEntity(archiveDto))
         if (archiveEntity.archiveId.isNotEmpty()) {
-            aliceFileService.upload(
+            aliceResourceProvider.setUploadFileLoc(
                 AliceFileDto(
                     ownId = archiveEntity.archiveId,
                     fileSeq = archiveDto.fileSeqList,
@@ -108,7 +108,7 @@ class ArchiveService(
         var status = ZResponseConstants.STATUS.SUCCESS
         try {
             archiveRepository.deleteById(archiveId)
-            aliceFileService.delete(archiveId)
+            aliceResourceProvider.deleteByOwnId(archiveId)
         } catch (e: Exception) {
             status = ZResponseConstants.STATUS.ERROR_FAIL
             e.printStackTrace()

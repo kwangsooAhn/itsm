@@ -1,8 +1,8 @@
-(function (global, factory) {
+(function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
             (factory((global.i18n = global.i18n || {})));
-}(this, (function (exports) {
+}(this, (function(exports) {
     'use strict';
 
     let messages = {},
@@ -48,10 +48,6 @@
      * @param {Object} offset 날짜시간 계산을 위한 조정 값.
      * @return {String} 사용자 타임존과 포맷이 반영된 날짜 데이터.
      */
-    function getYear(offset = { years : 0 }, format = i18n.yearFormat) {
-        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(format);
-    }
-
     function getDateTime(offset = { days : 0 }, format = i18n.dateTimeFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(format);
     }
@@ -100,23 +96,8 @@
     function makeUserDate(beforeUserDate, offset= { days : 0 }) {
         if (beforeUserDate === null || beforeUserDate === '') { return ''; }
 
-        return luxon.DateTime.fromFormat(beforeUserDate, i18n.dateFormat, {zone: i18n.timezone})
+        return luxon.DateTime.fromFormat(beforeUserDate, i18n.dateFormat, { zone: i18n.timezone })
             .setZone(i18n.timezone).plus(offset).toFormat(i18n.dateFormat);
-    }
-
-    /**
-     * 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
-     *
-     * @author Mo Hyung Nan
-     * @since 2022-05-25
-     * @param {String}  beforeUserYear 변환 대상 날짜.
-     * @return {String} 변환된 데이터.
-     */
-    function convertToSystemYear(beforeUserYear, offset = { years : 0 }, format = i18n.yearFormat) {
-        if (beforeUserYear === null || beforeUserYear === '') { return ''; }
-
-        return luxon.DateTime.fromFormat(convertToUserYear(beforeUserYear), format, {zone: i18n.timezone})
-            .setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -131,7 +112,7 @@
         if (beforeUserDateTime === null || beforeUserDateTime === '') { return ''; }
 
         return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserDateTime), format,
-            {zone: i18n.timezone}).setZone('utc+0').plus(offset).toISO();
+            { zone: i18n.timezone }).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -145,7 +126,7 @@
     function convertToSystemDate(beforeUserDate, offset = { days : 0 }, format =  i18n.dateFormat) {
         if (beforeUserDate === null || beforeUserDate === '') { return ''; }
 
-        return luxon.DateTime.fromFormat(beforeUserDate, format, {zone: i18n.timezone})
+        return luxon.DateTime.fromFormat(beforeUserDate, format, { zone: i18n.timezone })
             .setZone('utc+0').plus(offset).toISO();
     }
 
@@ -186,20 +167,6 @@
     /**
      * 서버에서 받은 ISO 8601 포맷의 데이터를 사용자 포맷과 타임존으로 변경
      *
-     * @author Mo Hyung Nan
-     * @since 2022-05-25
-     * @param {String}  beforeSystemYear 변환 대상 날짜시간 데이터.
-     * @return {String} 변환된 데이터.
-     */
-    function convertToUserYear(beforeSystemYear,  format = i18n.yearFormat) {
-        if (beforeSystemYear === null || beforeSystemYear === '') { return ''; }
-
-        return luxon.DateTime.fromISO(beforeSystemYear, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
-    }
-
-    /**
-     * 서버에서 받은 ISO 8601 포맷의 데이터를 사용자 포맷과 타임존으로 변경
-     *
      * @author Jung Hee chan
      * @since 2020-06-08
      * @param {String}  beforeSystemDateTime 변환 대상 날짜시간 데이터.
@@ -208,7 +175,7 @@
     function convertToUserDateTime(beforeSystemDateTime,  format = i18n.dateTimeFormat) {
         if (beforeSystemDateTime === null || beforeSystemDateTime === '') { return ''; }
 
-        return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
+        return luxon.DateTime.fromISO(beforeSystemDateTime, { zone: 'utc' }).setZone(i18n.timezone).toFormat(format);
     }
 
     /**
@@ -222,7 +189,7 @@
     function convertToUserDate(beforeSystemDate, format = i18n.dateFormat) {
         if (beforeSystemDate === null || beforeSystemDate === '') { return ''; }
 
-        return luxon.DateTime.fromISO(beforeSystemDate, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
+        return luxon.DateTime.fromISO(beforeSystemDate, { zone: 'utc' }).setZone(i18n.timezone).toFormat(format);
     }
 
     /**
@@ -249,7 +216,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToPrintFormat(beforeSystemDateTime, format = i18n.dateTimeFormat) {
-        return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone)
+        return luxon.DateTime.fromISO(beforeSystemDateTime, { zone: 'utc' }).setZone(i18n.timezone)
             .toFormat(format);
     }
 
@@ -274,19 +241,6 @@
         }
         return beforeTime;
     }*/
-
-    /**
-     * 최소 날짜시간이 최대 날짜시간 보다 큰지 비교하여 조건에 부합할 경우 true를 반환한다.
-     *
-     * @author Mo Hyung Nan
-     * @param minUserYear
-     * @param minUserYear
-     * @returns {boolean}
-     */
-    function compareSystemYear(minUserYear, maxUserYear, format = i18n.yearFormat) {
-        return (luxon.DateTime.fromFormat(convertToSystemHourType(minUserYear), format).setZone('utc+0').toISO().valueOf() <
-            luxon.DateTime.fromFormat(convertToSystemHourType(maxUserYear), format).setZone('utc+0').toISO().valueOf());
-    }
 
     /**
      * 최소 날짜시간이 최대 날짜시간 보다 큰지 비교하여 조건에 부합할 경우 true를 반환한다.
@@ -378,31 +332,27 @@
     exports.init = init;
     exports.initMessages = addMessages;
 
-    exports.getYear = getYear;
-    exports.getDateTime = getDateTime;
     exports.getDate = getDate;
     exports.getTime = getTime;
+    exports.getDateTime = getDateTime;
     exports.getStartOfDate = getStartOfDate;
     exports.getStartOfDateTime = getStartOfDateTime;
     exports.getEndOfDate = getEndOfDate;
     exports.getEndOfDateTime = getEndOfDateTime;
     exports.getCustomDate = getCustomDate;
-    exports.systemYear = convertToSystemYear;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;
     exports.systemTime = convertToSystemTime;
     exports.systemHourType = convertToSystemHourType;
-    exports.userYear = convertToUserYear;
     exports.userDateTime = convertToUserDateTime;
     exports.userDate = convertToUserDate;
     exports.userTime = convertToUserTime;
     exports.printFormat = convertToPrintFormat;
-    exports.compareSystemYear = compareSystemYear;
     exports.compareSystemDateTime = compareSystemDateTime;
     exports.compareSystemDate = compareSystemDate;
     exports.compareSystemTime = compareSystemTime;
     exports.msg = getMessage;
     exports.makeUserDate = makeUserDate;
 
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));

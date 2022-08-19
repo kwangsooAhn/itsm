@@ -388,7 +388,8 @@
           }
           .row-area {
             break-inside: avoid;
-            .textarea {
+            textarea,
+            .os-host-textarea {
               width: inherit;
               max-width: calc(210mm - 10mm);
             }

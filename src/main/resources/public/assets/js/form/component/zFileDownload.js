@@ -40,6 +40,11 @@ export const fileDownloadMixin = {
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this.data.value || '';
+
+        // 파일 조회 타입
+        this.fileType = 'file';
+        this.fileSeparator = '/';
+        this.basePath = '';
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -57,6 +62,19 @@ export const fileDownloadMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
+        // 파일 구분자
+        aliceJs.fetchText('/rest/resources/fileSeparator', {
+            method: 'GET',
+        }).then((response) => {
+            this.fileSeparator = response;
+        });
+        // 기본경로 조회
+        aliceJs.fetchText('/rest/resources/basePath?type=' + this.fileType, {
+            method: 'GET',
+        }).then((response) => {
+            this.basePath = response;
+        });
+
         this.UIElement.UIComponent.UIElement.UIFileDownload.onUIClick(this.downLoadFile.bind(this));
     },
     // set, get
@@ -118,7 +136,7 @@ export const fileDownloadMixin = {
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZFileProperty('elementPath', 'element.path', this.elementPath, 'file'))
+                .addProperty(new ZFileProperty('elementPath', 'element.path', this.elementPath, this.fileType))
                 .addProperty(new ZInputBoxProperty('elementText', 'element.text', this.elementText))
         ];
     },
@@ -137,29 +155,30 @@ export const fileDownloadMixin = {
             validation: this._validation
         };
     },
+
     downLoadFile() {
-        if (this.elementPath.startsWith('file:///')) {
-            const fileName = this.elementPath.split('file:///')[1];
-            aliceJs.fetchBlob('/rest/files/download?fileName=' + encodeURIComponent(fileName), {
-                method: 'GET',
-                showProgressbar: true
-            }).then(blob => {
-                if (typeof blob === 'object') {
-                    const a = document.createElement('a');
-                    const url = window.URL.createObjectURL(blob);
-                    a.href = url;
-                    a.download = fileName;
-                    document.body.append(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                } else {
-                    zAlert.warning(i18n.msg('file.msg.noAttachFile'));
-                }
-            }).catch(err => {
-                zAlert.warning(err);
-            });
-        }
+        const fullPath = this.basePath + this.fileSeparator + this.elementPath;
+        const urlParam = 'type=' + this.fileType + '&path=' + encodeURIComponent(fullPath);
+        const pathArr = this.elementPath.split(this.fileSeparator);
+        aliceJs.fetchBlob('/rest/resources/file/download?' + urlParam, {
+            method: 'GET',
+            showProgressbar: true
+        }).then(blob => {
+            if (typeof blob === 'object') {
+                const a = document.createElement('a');
+                const url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = pathArr[pathArr.length - 1];
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } else {
+                zAlert.warning(i18n.msg('resource.msg.noAttachFile'));
+            }
+        }).catch(err => {
+            zAlert.warning(err);
+        });
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {

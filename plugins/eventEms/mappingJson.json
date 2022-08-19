@@ -1,0 +1,21 @@
+{
+  "document": {
+    "document-id": "4028b21c7cdffb67017ce0b70509093e",
+    "assignee-id": "0509e09412534a6e98f04ca79abb6424",
+    "title-component-id": "9ce85cb8b5584592824572201990be0f",
+    "content-component-id": "fb4d5175e84940b9b7b6081bf25703a1",
+    "evttime-component-id": "d16277a918414e35b76510d8c413e38b",
+    "alert": {
+      "level-component-id": "aa46b32a11d2469f97f3400e19cc8fe9",
+      "urgency-component-id": "e229ac8ed33b479682104e6f52976ef3"
+    },
+    "default": {
+      "db577589ac59407884634054181536a8": "system|system|system",
+      "a7d4304ea9e44123bc338ff8a6f1b8d3": "4028b2d57d37168e017d3716cgf00000|전체",
+      "6d06319415af48d2acebb50ab3297f89": "now()",
+      "86af50a1c1884caf82643cf22e9be79f": "now()",
+      "008e4d65bbff4e64ad652161dfe67a6b": "automatic",
+      "468a97d081914885b40c0e069ad44ff2": "form.template.serviceDesk.incident.category.none"
+    }
+  }
+}

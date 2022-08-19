@@ -446,6 +446,7 @@ cmdb:
     label:
       all: "전체"
       applyDate: "반영 일시"
+      chart: "모니터링 차트"
       ciDesc: "자산 설명"
       ciName: "자산명"
       ciNo: "자산 번호"
@@ -477,6 +478,7 @@ cmdb:
       type: "자산 유형"
       register: "자산 등록"
       update: "자산 수정"
+      usage: "사용량"
       view: "자산 상세 조회"
       relation: "연관 관계"
       targetCiName: "대상 자산명"
@@ -532,6 +534,13 @@ cmdb:
     btn:
       import: "가져오기"
       export: "내보내기"
+  icon:
+    label:
+      list: "자산 아이콘 관리"
+    msg:
+      maxFileSize: "첨부파일 사이즈는 10KB 이내로 등록 가능합니다."
+      notFoundInTable: "파일이 이력 테이블(cmdb_ci_icon)에 존재하지 않습니다. 이력 테이블(cmdb_ci_icon)에 데이터를 주가 바랍니다."
+      searchDescription: "자산 유형별 사용되는 아이콘을 추가하거나 삭제, 조회하는 등 관리하는 메뉴입니다."
   type:
     label:
       alias: "식별자"
@@ -1116,6 +1125,7 @@ menu:
     product: "제품 정보"
     role: "역할"
     scheduler: "스케줄러"
+    service: "서비스 카테고리"
     user: "사용자"
   dashboard:
     parent: "개인 현황판"
@@ -1154,17 +1164,18 @@ menu:
   workflow:
     customCode: "커스텀 코드"
     form: "문서양식"
-    file: "파일 관리"
     numberingPattern: "패턴"
     numberingRule: "문서번호 규칙"
     parent: "업무흐름 관리"
     process: "프로세스"
+    resource: "리소스 관리"
     workflowAdmin: "업무흐름"
   cmdb:
     parent: "CMDB"
     attribute: "자산 속성항목"
     ci: "자산 조회"
     class: "자산 속성그룹"
+    icon: "자산 아이콘"
     type: "자산 유형"
 
 # Notice
@@ -1473,6 +1484,28 @@ scheduler:
    • 네 번째 필드 : 일 (Day of month)을 정의하며 1 ~ 31의 허용범위를 가진다.<br/><br/>
    • 다섯 번째 필드 : 월 (Month)을 정의하며 1 ~ 12 또는 JAN ~ DEC의 허용범위를 가진다.<br/><br/>
    • 여섯 번째 필드 : 요일 (Week)을 정의하며 0 ~ 6 또는 SUN ~ SAT의 허용범위를 가진다."
+
+# service
+service:
+  label:
+    avaGoal: "가용 목표"
+    code: "서비스 코드"
+    description: "서비스 설명"
+    endDate: "서비스 종료일자"
+    name: "서비스 이름"
+    pCode: "부모 서비스 코드"
+    searchPlaceholder: "서비스 코드 / 서비스 이름"
+    seqNum: "출력 순서"
+    service: "서비스 카테고리"
+    startDate: "서비스 시작일자"
+    useYn: "사용 여부"
+  msg:
+    duplicateServiceCode: "중복된 서비스 코드가 존재합니다."
+    duplicateServiceName: "중복된 서비스 이름이 존재합니다."
+    editDescription: "서비스 카테고리를 조회 및 관리합니다."
+    enterServiceCode: "서비스 코드를 입력하세요."
+    enterServiceName: "서비스 이름을 입력하세요."
+    checkPositionFormat: "서비스 코드 항목은 특수문자 사용이 불가합니다."
 
 # sla
 sla:
@@ -1863,26 +1896,6 @@ project:
     sessionInvalid: "Zenius ITSM : 세션"
     signUp: "Zenius ITSM : 회원가입"
 
-# uploader
-file:
-  label:
-    list: "파일 관리"
-    name: "파일명"
-    or: "또는"
-    placeholder: "Select Your File"
-    popupTitle: "파일 선택"
-    upload: "파일 업로드"
-  msg:
-    browser: "파일을 직접 찾으세요."
-    existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
-    failedRename: "파일명 수정이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
-    fileSelect: "파일을 선택하세요."
-    noAttachFile: "첨부 파일이 없습니다."
-    unacceptableCharacters: "파일명에 허용하지 않는 특수문자(. / \ %)가 포함되어 있습니다."
-    registrationSuccess: "파일 등록에 성공하였습니다"
-    searchDescription: "문서양식에서 사용할 파일을 추가하거나 조회 및 관리합니다."
-    upload: "업로드하려면 여기로 파일을 드래그하세요."
-
 # Pattern
 pattern:
   label:
@@ -1956,3 +1969,40 @@ tooltip:
     userTask: "유저 태스크"
     manualTask: "매뉴얼 태스크"
     scriptTask: "스크립트 태스크"
+
+# Resource
+resource:
+  btn:
+    file: "파일 추가"
+    folder: "폴더 추가"
+    moveParentFolder: "상위 폴더 이동"
+    rename: "이름 변경"
+  label:
+    extension: "유형"
+    fileName: "파일명"
+    folder: "폴더"
+    folderName: "폴더명"
+    fullPath: "경로"
+    image: "이미지"
+    list: "리소스 관리"
+    name: "이름"
+    newFolder: "새 폴더"
+    or: "또는"
+    placeholder: "Select Your File"
+    thumbnailTitle: "파일 선택"
+    rename: "이름 변경"
+    sharedFolder: "공유 문서함"
+    searchPlaceholder: "폴더명 / 파일명"
+    size: "크기"
+    upload: "파일 업로드"
+  msg:
+    browser: "파일을 직접 찾으세요."
+    confirmFolderDelete: "하위 폴더 및 파일이 존재합니다. 정말 삭제하시겠습니까?"
+    duplicateFolderName: "동일한 폴더명이 존재합니다.<br>다른 이름을 입력하세요."
+    existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
+    failedRename: "파일명 수정이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
+    noAttachFile: "첨부 파일이 없습니다."
+    noFile: "파일이 존재하지 않습니다."
+    searchDescription: "공유 폴더/파일을 추가하거나 삭제, 조회하는 등 관리하는 메뉴입니다."
+    unacceptableCharacters: "허용하지 않는 특수문자(: ? * \" < > |)가 포함되어 있습니다."
+    upload: "업로드하려면 여기로 파일을 드래그하세요."

@@ -33,7 +33,9 @@ aliceJs.response = {
     duplicateLogin: 'E-0011',
     invalidUser: 'E-0012',
     disabledUser: 'E-0013',
-    processedToken:'E-0014'
+    processedToken:'E-0014',
+    duplicateServiceCode: 'E-0015',
+    duplicateServiceName: 'E-0016'
 };
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
@@ -232,7 +234,8 @@ aliceJs.sendXhr = function(option) {
     let callbackFunc = option.callbackFunc;
     let params = option.params;
     let async = (option.async === undefined || option.async === null) ? true : option.async;
-    let showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null) ? true : option.showProgressbar;
+    let showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null)
+        ? true : option.showProgressbar;
 
     let xhr;
     try {
@@ -496,7 +499,9 @@ function dateFormatFromNow(date) {
         const durationMilliseconds = luxon.Interval.fromDateTimes(new Date(i18n.userDateTime(date)), new Date())
             .toDuration()
             .valueOf();
-        const humanizedString = humanizeDuration(durationMilliseconds, { largest : 1, floor : true, units : ['y', 'mo', 'd', 'h', 'm', 's'] }).split(' ');
+        const humanizedString = humanizeDuration(durationMilliseconds, {
+            largest : 1, floor : true, units : ['y', 'mo', 'd', 'h', 'm', 's']
+        }).split(' ');
 
         switch (true) {
             case humanizedString[1].includes('year') : return i18n.msg('date.label.yearsAgo', humanizedString[0]);
@@ -516,195 +521,7 @@ function dateFormatFromNow(date) {
  * @returns icon path 파일명
  */
 aliceJs.getFileExtensionIcon = function(extension) {
-    return '/assets/media/icons/fileUploader/icon_document_' + extension + '.svg';
-};
-
-/**
- * 썸네일
- *
- * @param options 옵션
- *
- * title: 'Image',        // 모달 제목
- * type: 'image',         // 타입 : image, icon
- * isThumbnailInfo: true, // 하단 정보 출력 여부
- * isFilePrefix: true,    // 파일 선택시 파일명 앞에 'file:///' 추가 여부
- * thumbnailDoubleClickUse: false, // 더블클릭으로 이미지 선택기능 여부
- */
-aliceJs.thumbnail = function(options) {
-    /**
-     * 썸네일 저장
-     *
-     * @param targetId 대상 input
-     */
-    const saveThumbnail = function(targetId) {
-        // image 미선택 시 알림창 출력
-        let selectedFile = document.querySelector('.thumbnail.selected');
-        if (!selectedFile) {
-            zAlert.warning(i18n.msg('file.msg.fileSelect'));
-            return false;
-        }
-        const targetElem = document.getElementById(targetId);
-        if (targetElem) {
-            if (options.isFilePrefix) {
-                targetElem.value = 'file:///' + selectedFile.dataset.name;
-            } else {
-                targetElem.value = selectedFile.dataset.name;
-            }
-            targetElem.dispatchEvent(new Event('focusout'));
-        }
-        aliceJs.inputButtonRemove();
-        return true;
-    };
-
-    /**
-     * 썸네일 선택.
-     */
-    const thumbnailSelect = function(e) {
-        const elem = aliceJs.clickInsideElement(e, 'thumbnail');
-        if (elem) {
-            const parentElem = elem.parentNode;
-            const isSelected = elem.classList.contains('selected');
-            if (!isSelected) {
-                for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
-                    let child = parentElem.childNodes[i];
-                    if (child.classList.contains('selected')) {
-                        child.classList.remove('selected');
-                    }
-                }
-                elem.classList.add('selected');
-            }
-        }
-    };
-
-    const getThumbnail = function(type, file) {
-        let thumbnailTemplate = '';
-        switch (type) {
-            case 'image':
-                thumbnailTemplate = `<div class="thumbnail-image" ` +
-                    `style="background-image:url('data:image/${file.extension};base64,${file.data}');">` +
-                    `</div>`;
-                break;
-            case 'icon':
-            case 'cmdb-icon':
-                thumbnailTemplate = `<div class="thumbnail-icon" ` +
-                    `style="background-image:url('data:image/${file.extension};base64,${file.data}');background-size:100%;">` +
-                    `</div>`;
-                break;
-            case 'file':
-                thumbnailTemplate = `<div class="thumbnail-file">` +
-                    `<img src="${aliceJs.getFileExtensionIcon((file.extension).trim().toLowerCase())}"></div>` +
-                    `</div>`;
-                break;
-            default:
-                break;
-        }
-        return thumbnailTemplate;
-    };
-
-    /**
-     * 썸네일 content.
-     *
-     * @param files 파일목록
-     * @return content html
-     */
-    const createContent = function(response) {
-        const container = document.createElement('div');
-        container.className = 'thumbnail-main flex-row flex-wrap';
-        if (response.status === aliceJs.response.success && response.data.data.length > 0) {
-            for (let i = 0, len = response.data.data.length; i < len; i++) {
-                let file = response.data.data[i];
-                const fileExtension = (file.extension).trim().toLowerCase();
-                const isImageFile = aliceJs.imageExtensions.includes(fileExtension);
-                const thumbnail = document.createElement('div');
-                thumbnail.className = 'thumbnail';
-                thumbnail.setAttribute('data-name', file.name);
-
-                if (typeof options.selectedPath !== 'undefined' &&  options.selectedPath.indexOf(file.name) > -1) {
-                    thumbnail.classList.add('selected');
-                }
-                // 이벤트 등록
-                thumbnail.addEventListener('click', thumbnailSelect, false);
-                if (options.thumbnailDoubleClickUse) {
-                    thumbnail.addEventListener('dblclick', function() {
-                        document.querySelector('.thumbnail-save').click();
-                    }, false);
-                }
-
-                container.appendChild(thumbnail);
-                // 썸네일 조회
-                const fileType = (options.type === 'file' && isImageFile) ? 'image' : options.type;
-                thumbnail.insertAdjacentHTML('beforeend', getThumbnail(fileType, file));
-
-                if (options.isThumbnailInfo) {
-                    const thumbnailInfo = document.createElement('div');
-                    thumbnailInfo.className = 'thumbnail-info';
-                    thumbnail.appendChild(thumbnailInfo);
-
-                    const thumbnailName = document.createElement('p');
-                    thumbnailName.className = 'thumbnail-info-text';
-                    thumbnailName.innerHTML = `<label class="text-ellipsis" title="${file.name}">${file.name}</label>`;
-                    thumbnailInfo.appendChild(thumbnailName);
-
-                    const thumbnailText = (isImageFile) ? `${file.width} X ${file.height} (${file.size})` : `${file.size}`;
-                    const thumbnailSize = document.createElement('p');
-                    thumbnailSize.className = 'thumbnail-info-text';
-                    thumbnailSize.innerHTML = `<label class="text-ellipsis">${thumbnailText}</label>`;
-                    thumbnailInfo.appendChild(thumbnailSize);
-
-                    const thumbnailBottom = document.createElement('div');
-                    thumbnailBottom.className = 'thumbnail-bottom';
-                    thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
-                    thumbnail.appendChild(thumbnailBottom);
-                }
-            }
-        } else {
-            // 썸네일이 존재하지 않을 경우 안내 문구 표시
-            const thumbnailNodataTemplate = `
-                <div class="thumbnail-nodata align-center">
-                    <label>${i18n.msg('common.msg.noData')}</label>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
-        }
-        return container;
-    };
-
-    // 이미지 파일 로드
-    aliceJs.fetchJson('/rest/files?type=' + options.type, {
-        method: 'GET'
-    }).then((response) => {
-        const modalOptions = {
-            title: options.title,
-            body: createContent(response),
-            classes: 'thumbnail-' + options.type,
-            buttons: [{
-                content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box primary thumbnail-save',
-                bindKey: false,
-                callback: function(modal) {
-                    if (saveThumbnail(options.targetId)) {
-                        modal.hide();
-                    }
-                }
-            }, {
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box secondary',
-                bindKey: false,
-                callback: function(modal) {
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false,
-            },
-            onCreate: function(modal) {
-                OverlayScrollbars(document.querySelector('.thumbnail-main').closest('.modal__dialog__body'), { className: 'scrollbar' });
-            }
-        };
-
-        let thumbnailModal = new modal(modalOptions);
-        thumbnailModal.show();
-    });
+    return '/assets/media/icons/fileUploader/icon_document_' + extension.toLowerCase() + '.svg';
 };
 
 /**
@@ -815,7 +632,8 @@ aliceJs.hexToRgba = function(value, opacity) {
                 hexValue = [hexValue[0], hexValue[0], hexValue[1], hexValue[1], hexValue[2], hexValue[2]];
             }
             hexValue = '0x' + hexValue.join('');
-            return 'rgba(' + [(hexValue >> 16) & 255, (hexValue >> 8) & 255, hexValue & 255].join(',') + ',' + opacity + ')';
+            return 'rgba(' + [(hexValue >> 16) & 255, (hexValue >> 8) & 255, hexValue & 255].join(',')
+                + ',' + opacity + ')';
         } else {
             throw new Error('Bad Hex');
         }
@@ -1062,7 +880,8 @@ aliceJs.swapNode = function(node1, node2) {
  */
 aliceJs.doFetch = async function(url, option) {
     // Progressbar 추가
-    const showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null) ? false : option.showProgressbar;
+    const showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null)
+        ? false : option.showProgressbar;
     if (showProgressbar) {
         showProgressBar();
     }
@@ -1314,7 +1133,9 @@ aliceJs.openNoticePopup = function(noticePopupData) {
         const targetId = data.noticeNo;
         const targetUrl = '/notices/' + targetId + '/view-pop';
         if (aliceJs.getCookie(targetId) !== 'done') {
-            window.open(targetUrl, targetId, 'width=' + data.popWidth + ',height=' + data.popHeight + ',top=' + 150 + ',left=' + 150);
+            window.open(targetUrl, targetId,
+                'width=' + data.popWidth + ',height=' + data.popHeight + ',top=' + 150 + ',left=' + 150);
+
         }
     });
 };
@@ -1381,4 +1202,17 @@ aliceJs.fetchDownload = function(option) {
     }).catch(err => {
         zAlert.warning(err);
     });
+};
+
+/**
+ * os 테마 설정에 따른 테마 적용
+ *
+ * @param theme
+ */
+aliceJs.initTheme = function(theme = 'default') {
+    if (theme === 'default') {
+        const osThemeMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let osTheme = osThemeMode ? 'dark' : 'light';
+        document.querySelector('html').setAttribute('data-theme', osTheme);
+    }
 };

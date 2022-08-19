@@ -46,6 +46,12 @@ export const imageMixin = {
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._validation = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.validation, this.data.validation);
         this._value = this.data.value || '';
+        
+        // 파일 조회 타입
+        this.fileType = 'image';
+        this.fileSeparator = '/';
+        this.basePath = '';
+
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -62,23 +68,35 @@ export const imageMixin = {
         // placeholder
         element.UIDiv = new UIDiv().setUIClass('imagebox-placeholder')
             .addUI(new UISpan().setUIClass('ic-no-image'))
-            .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('file.label.placeholder')));
+            .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('resource.label.placeholder')));
         element.addUI(element.UIDiv);
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
-        // path 추가
-        if (!zValidation.isEmpty(this.elementPath) && this.elementPath.startsWith('file:///')) {
-            aliceJs.fetchJson('/rest/files/' + this.elementPath.split('file:///')[1], {
+        // 기본경로 조회
+        aliceJs.fetchText('/rest/resources/basePath?type=' + this.fileType, {
+            method: 'GET',
+        }).then((response) => {
+            this.basePath = response;
+            // path 추가
+            this.setImageSrc(this.basePath + this.fileSeparator + this.elementPath);
+        });
+    },
+    // 이미지를 조회하여 경로 표시
+    setImageSrc(path) {
+        if (!zValidation.isEmpty(path)) {
+            const urlParam = 'type=' + this.fileType + '&path=' + encodeURIComponent(path);
+            aliceJs.fetchJson('/rest/resources/file?' + urlParam, {
                 method: 'GET'
             }).then((response) => {
                 if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
-                    this.UIElement.UIComponent.UIElement.UIImg.setUISrc('data:image/' + response.data.extension + ';base64,' + response.data.data);
+                    this.UIElement.UIComponent.UIElement.UIImg.setUISrc(
+                        'data:image/' + response.data.extension + ';base64,' + response.data.data);
                 }
             });
         } else {
-            this.UIElement.UIComponent.UIElement.UIImg.setUISrc(this.elementPath);
+            this.UIElement.UIComponent.UIElement.UIImg.setUISrc('');
         }
     },
     // set, get
@@ -99,17 +117,8 @@ export const imageMixin = {
     },
     set elementPath(path) {
         this._element.path = path;
-        if (path.startsWith('file:///')) {
-            aliceJs.fetchJson('/rest/files/' + path.split('file:///')[1], {
-                method: 'GET'
-            }).then((response) => {
-                if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
-                    this.UIElement.UIComponent.UIElement.UIImg.setUISrc('data:image/' + response.data.extension + ';base64,' + response.data.data);
-                }
-            });
-        } else {
-            this.UIElement.UIComponent.UIElement.UIImg.setUISrc(path);
-        }
+
+        this.setImageSrc(this.basePath + this.fileSeparator + path);
     },
     get elementPath() {
         return this._element.path;
@@ -175,13 +184,12 @@ export const imageMixin = {
             { 'name': 'ic-align-center', 'value': 'center' },
             { 'name': 'ic-align-right', 'value': 'right' }
         ]);
-
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZFileProperty('elementPath', 'element.path', this.elementPath, 'image'))
+                .addProperty(new ZFileProperty('elementPath', 'element.path', this.elementPath, this.fileType))
                 .addProperty(elementWidthProperty)
                 .addProperty(elementHeightProperty)
                 .addProperty(elementAlignProperty)

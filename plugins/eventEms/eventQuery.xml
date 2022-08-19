@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+    <node id="get.if.event.id">
+        SELECT MAX(z_myid) AS z_myid
+        FROM if_ems_event
+    </node>
+    <node id="get.event.first.list">
+        SELECT ree.z_myid
+        , ree.z_evttime
+        , ree.z_infraid
+        , rei.z_wname AS z_infraname
+        , ree.z_itname
+        , ree.z_myhost
+        , ree.z_myname
+        , ree.z_mymsg
+        , ree.z_alert
+        , ree.z_status
+        FROM rt_ems_event ree
+        LEFT JOIN rt_ems_infralist rei ON ree.z_infraid = rei.z_myid
+        WHERE ree.z_evttime > current_timestamp + '-?? days'
+        AND ree.z_alert in (?)
+        AND ree.z_status = 0
+        ORDER BY ree.z_myid DESC
+    </node>
+    <node id="get.event.list">
+        SELECT ree.z_myid
+        , ree.z_evttime
+        , ree.z_infraid
+        , rei.z_wname AS z_infraname
+        , ree.z_itname
+        , ree.z_myhost
+        , ree.z_myname
+        , ree.z_mymsg
+        , ree.z_alert
+        , ree.z_status
+        FROM rt_ems_event ree
+        LEFT JOIN rt_ems_infralist rei ON ree.z_infraid = rei.z_myid
+        WHERE ree.z_myid > ??
+        AND ree.z_alert in (?)
+        AND ree.z_status = 0
+        ORDER BY ree.z_myid DESC
+    </node>
+    <node id="if.event.insert">
+        INSERT INTO if_ems_event (
+        z_myid
+        , z_evttime
+        , z_infraid
+        , z_infraname
+        , z_itname
+        , z_myhost
+        , z_myname
+        , z_mymsg
+        , z_alert
+        , z_status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    </node>
+</query>

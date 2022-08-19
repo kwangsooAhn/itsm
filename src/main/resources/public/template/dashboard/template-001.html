@@ -221,9 +221,15 @@
             }
             gridBodyElem += `</div>`;
         } else { // 요청사항 내역이 없는 경우
-            gridBodyElem = `<div class="grid__body"><div class="grid__row grid--noData read-only">
-                    <div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>
-                </div></div>`;
+            gridBodyElem = `<div class="grid__body">
+                <div class="grid--noData" style="--data-columns-width: 100%;">
+                    <div class="grid__row read-only">
+                        <div class="grid__cell">
+                            <span class="ic-no-data"></span>
+                            <span>${i18n.msg('common.msg.noData')}</span>
+                        </div>
+                    </div>
+                </div></div>`.trim();
         }
         gridElem.insertAdjacentHTML('beforeend', `${gridBodyElem}`);
         OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });

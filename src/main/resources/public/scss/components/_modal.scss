@@ -197,21 +197,6 @@ body.active { overflow: hidden !important; }
   }
 
   /*
-   * thumbnail
-   */
-  // formDesigner - 썸네일 모달
-  // process - 파일 선택 모달
-  &.thumbnail-image,
-  &.thumbnail-file {
-    width: 1040px; // 1040px
-    height: 48.44rem; // 775px
-    .modal__dialog__body {
-      height: calc(48.44rem - 3.875rem - 5rem); // 775px
-      .thumbnail-main .thumbnail { width: 14.375rem; } // 230px
-    }
-  }
-
-  /*
    * 업무 흐름 모달
    */
   // 업무 흐름 등록 / 수정 모달
@@ -629,5 +614,72 @@ body.active { overflow: hidden !important; }
       }
     }
     .modal__dialog__footer { height: 3.5rem }; //56px
+  }
+
+  /*
+   * resource
+   */
+  // 폴더 추가
+  &.save-folder {
+    .modal__dialog__body {
+      @include scrollbarHidden;
+      height: calc(15.625rem - 3.875rem - 5rem); // 250px
+      padding: 0.625rem 1.25rem; // 10px 20px
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+    }
+  }
+  // 썸네일 미리보기
+  &.thumbnail-preview {
+    width: 47.5rem; // 760px
+
+    .modal__dialog__body {
+      height: calc(40.313rem - 3.875rem - 5rem);
+      padding: 0.9375rem 1.875rem; // 15px 30px
+
+      .preview__image {
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+    }
+  }
+  // 썸네일 모달
+  &.thumbnail__modal--image,
+  &.thumbnail__modal--file {
+    width: 68.13rem;; // 1090px
+    .modal__dialog__body {
+      height: calc(48.44rem - 3.875rem - 5rem); // 775px
+      overflow: hidden;
+
+      @include gridTemplate();
+
+      .scroll-search { padding: 1.25rem; } // 20px
+      .scroll-result {
+        height: calc(48.44rem - 3.875rem - 5rem - 7.188rem); // 높이 = 전체 높이 상단, 하단 제외
+
+        .scroll-list { padding: 0 1.25rem; } // 0 20px
+      }
+    }
+  }
+  // CMDB 아이콘
+  &.thumbnail__modal--cmdb-icon {
+    width: 68.13rem;; // 1090px
+    .modal__dialog__body {
+      height: calc(32rem - 3.875rem - 5rem); // 512px
+      overflow: hidden;
+
+      @include gridTemplate();
+
+      .scroll-search { padding: 1.25rem; } // 20px
+      .scroll-result {
+        height: calc(32rem - 3.875rem - 5rem - 7.188rem); // 높이 = 전체 높이 상단, 하단 제외
+
+        .scroll-list { padding: 0 1.25rem; } // 0 20px
+      }
+    }
   }
 }

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+<head>
+    <title th:text="#{resource.label.list}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{resource.label.list}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{resource.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="frmSearch" onsubmit="return false;">
+        <input type="hidden" id="type" name="type" value="file"/>
+        <input type="hidden" id="searchPath" name="searchPath" th:value="${basePath}"/>
+        <input type="text" class="ic-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+               th:placeholder="#{resource.label.searchPlaceholder}"/>
+        <span id="spanTotalCount" class="search-count"></span>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="btn__text--box secondary" th:text="#{resource.btn.folder}"
+                id="addFolderBtn" onclick="openFolderModal(this)"></button>
+        <button type="button" class="btn__text--box secondary" th:text="#{resource.btn.file}"
+                id="uploadFileBtn" onclick="document.getElementById('uploadFile').click();"></button>
+        <input type="file" class="none" id="uploadFile" multiple onchange="addFile(this);" />
+        <div class="btn__toggle__button" id="pageType">
+            <button class="btn__toggle__button--single selected" type="button" data-action="thumbnail" onclick="onClickPageType(this);">
+                <span class="ic-chocolate"></span>
+            </button>
+            <button class="btn__toggle__button--single" type="button" data-action="list" onclick="onClickPageType(this);">
+                <span class="ic-cheeseburger"></span>
+            </button>
+        </div>
+    </div>
+    <!-- 브레드 크럼 -->
+    <input type="hidden" id="basePath" name="basePath" th:value="${basePath}"/>
+    <input type="hidden" id="fileSeparator" name="fileSeparator" th:value="${fileSeparator}"/>
+    <ol class="breadcrumb flex-row col-pct-12 mt-4" id="breadcrumb">
+        <li class="breadcrumb__item flex-row align-items-center" th:data-path="${basePath}">
+            <button type="button" class="btn__text--only" onclick="goFolder('');"
+                    th:text="#{resource.label.sharedFolder}"></button>
+            <span class="ic-arrow-right ml-1 mr-1"></span>
+        </li>
+    </ol>
+    <!-- 폴더 추가 모달 -->
+    <template id="folderModalTemplate">
+        <div class="flex-column">
+            <label class="field-label" for="newFolderName">
+                <span th:text="#{resource.label.folderName}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="newFolderName" data-validation-required="true" maxlength="100" />
+        </div>
+    </template>
+</div>
+<div layout:fragment="pageList">
+    <div class="list-content flex-row" id="resources">
+        <th:block th:fragment="list">
+            <input th:type="hidden" id="totalCount" name="totalCount" th:value="${paging?.totalCount}"/>
+            <input th:type="hidden" id="totalCountWithoutCondition" name="totalCountWithoutCondition" th:value="${paging?.totalCountWithoutCondition}">
+            <input th:type="hidden" id="currentPageNum" name="currentPageNum" th:value="${paging?.currentPageNum}">
+            <input th:type="hidden" id="totalPageNum" name="totalPageNum" th:value="${paging?.totalPageNum}">
+            <input th:type="hidden" id="orderType" name="orderType" th:value="${paging?.orderType}">
+            <input th:type="hidden" id="orderColName" th:value="${paging?.orderColName}">
+            <input th:type="hidden" id="orderDir" th:value="${paging?.orderDir}">
+            <input th:type="hidden" id="contentNumPerPage" th:value="${paging?.contentNumPerPage}">
+            <!-- 리스트 보기 -->
+            <th:block th:if="${pageType == 'list'}">
+                <div class="grid" th:style="|--data-columns-width:${isSearch ? '5% 22% 18% 10% 18% 22% 5%;' : '5% 34% 22% 12% 22% 5%;'} --data-height: ${paging?.contentNumPerPage * 2.5}rem;|">
+                    <div class="grid__head">
+                        <div class="grid__row">
+                            <div class="grid__cell" data-grid-sortable="false"></div>
+                            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="name">
+                                <span class="text-ellipsis" th:text="#{resource.label.name}"></span>
+                            </div>
+                            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="updateDt">
+                                <span class="text-ellipsis" th:text="#{common.label.updateDate}"></span>
+                            </div>
+                            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="extension">
+                                <span class="text-ellipsis" th:text="#{resource.label.extension}"></span>
+                            </div>
+                            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="size">
+                                <span class="text-ellipsis" th:text="#{resource.label.size}"></span>
+                            </div>
+                            <!-- 검색시, 경로 표기 -->
+                            <div th:if="${isSearch}" class="grid__cell pr-2 pl-2" data-grid-sortable="false"
+                                 data-grid-column="fullPath">
+                                <span class="text-ellipsis" th:text="#{resource.label.fullPath}"></span>
+                            </div>
+                            <div class="grid__cell" data-grid-sortable="false"></div>
+                        </div>
+                    </div>
+                    <div class="grid__body list-group">
+                        <div class="grid--noData" th:if="${#arrays.isEmpty(resources)}" style="--data-columns-width: 100%;">
+                            <div class="grid__row read-only">
+                                <div class="grid__cell">
+                                    <span class="ic-no-data"></span>
+                                    <span class="mt-3" th:text="#{common.msg.noData}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid__row list-group-item" th:unless="${#arrays.isEmpty(resources)}" th:each="resource: ${resources}"
+                             th:classappend="${resource.directoryYn}? 'grid__item--folder': ''">
+                            <div class="grid__cell pr-2 pl-4" th:data-name="${resource.name}">
+                                <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="24" height="24"/>
+                            </div>
+                            <div class="grid__cell pr-2 pl-2">
+                                <th:block th:if="${resource.directoryYn}">
+                                    <span class="text-ellipsis pointer" th:text="${resource.name}" th:title="${resource.name}" th:onclick="goFolder(encodeURIComponent([[${resource.fullPath}]]));" th:data-name="${resource.name}"></span>
+                                </th:block>
+                                <th:block th:unless="${resource.directoryYn}">
+                                    <span class="text-ellipsis pointer" th:text="${resource.name}" th:title="${resource.name}" onclick="downLoadFile(this);" th:data-name="${resource.name}"></span>
+                                </th:block>
+                            </div>
+                            <div class="grid__cell pr-2 pl-2">
+                                <span class="text-ellipsis date-format" th:text="${resource.updateDt}" th:title="${resource.updateDt}"></span>
+                            </div>
+                            <div class="grid__cell pr-2 pl-2">
+                                <span class="text-ellipsis extension-format" th:text="${#strings.toUpperCase(resource.extension)}" th:title="${#strings.toUpperCase(resource.extension)}"></span>
+                            </div>
+                            <div class="grid__cell pr-2 pl-2">
+                                <th:block th:if="${resource.directoryYn}">
+                                    <span class="text-ellipsis" th:text="|${resource.size} (${resource.count})|" th:title="|${resource.size} (${resource.count})|"></span>
+                                </th:block>
+                                <th:block th:unless="${resource.directoryYn}">
+                                    <span class="text-ellipsis" th:if="${resource.imageFileYn}" th:text="|${resource.size} (${resource.width} X ${resource.height})|" th:title="|${resource.size} (${resource.width} X ${resource.height})|"></span>
+                                    <span class="text-ellipsis" th:unless="${resource.imageFileYn}" th:text="|${resource.size}|" th:title="|${resource.size}|"></span>
+                                </th:block>
+                            </div>
+                            <!-- 검색시, 경로 표기 -->
+                            <div th:if="${isSearch}" class="grid__cell pr-2 pl-2">
+                                <span class="text-ellipsis path-format" th:text="${resource.fullPath}" th:title="${resource.fullPath}"></span>
+                            </div>
+                            <div class="grid__cell pl-2">
+                                <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable} and ${!isSearch}">
+                                    <div class="context-menu">
+                                        <button type="button" class="btn__ic context-menu__toggle p-0">
+                                            <span class="ic-meatballs"></span>
+                                        </button>
+                                        <ul class="context-menu__content right-bottom">
+                                            <th:block th:if="${resource.directoryYn}">
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                            onclick="openFolderModal(this);" th:text="#{resource.btn.rename}"></button>
+                                                </li>
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}" th:data-count="${resource.count}"
+                                                            onclick="removeFolder(this);" th:text="#{common.btn.delete}"></button>
+                                                </li>
+                                            </th:block>
+                                            <th:block th:unless="${resource.directoryYn}">
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                            onclick="removeFile(this);" th:text="#{common.btn.delete}"></button>
+                                                </li>
+                                            </th:block>
+                                            <th:block th:if="!${isRoot}">
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                            onclick="moveParentFolder(this);" th:text="#{resource.btn.moveParentFolder}"></button>
+                                                </li>
+                                            </th:block>
+                                        </ul>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            <!-- 썸네일 보기 -->
+            <th:block th:if="${pageType == 'thumbnail'}">
+                <div class="grid--noData" th:if="${#arrays.isEmpty(resources)}" style="--data-columns-width: 100%;">
+                    <div class="grid__row read-only">
+                        <div class="grid__cell">
+                            <span class="ic-no-data"></span>
+                            <span class="mt-3" th:text="#{common.msg.noData}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid" th:unless="${#arrays.isEmpty(resources)}"
+                     style="--data-columns-width: repeat(auto-fill, minmax(15.313rem, 1fr));">
+                    <div class="grid__row gap-2 list-group">
+                        <div class="grid__thumbnail list-group-item" tabindex="-1" th:each="resource: ${resources}"
+                             th:classappend="${resource.directoryYn}? 'grid__item--folder': ''">
+                            <th:block th:if="${resource.directoryYn}">
+                                <div class="thumbnail__image" th:unless="${resource.imageFileYn}" th:onclick="goFolder(encodeURIComponent([[${resource.fullPath}]]));" th:data-name="${resource.name}">
+                                    <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="60" height="60"/>
+                                </div>
+                            </th:block>
+                            <th:block th:unless="${resource.directoryYn}">
+                                <div class="thumbnail__image" th:if="${resource.imageFileYn}" onclick="openPreviewModal(this);" th:data-name="${resource.name}"
+                                     th:style="|background-image:url('data:image/${resource.extension};base64,${resource.data}');|">
+                                </div>
+                                <div class="thumbnail__image" th:unless="${resource.imageFileYn}" onclick="downLoadFile(this);" th:data-name="${resource.name}">
+                                    <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="60" height="60"/>
+                                </div>
+                            </th:block>
+                            <div class="thumbnail__caption">
+                                <p>
+                                    <label class="thumbnail__caption--title text-ellipsis"
+                                           th:ondblclick="(${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable} and ${!resource.directoryYn}) ? 'changeFileName(this);': ''"
+                                           th:title="${resource.name}" th:text="${resource.name}">
+                                    </label>
+                                    <input type="text" th:id="|file${resource.name}|" class="thumbnail__caption--rename" maxlength="128"/>
+                                </p>
+                                <p>
+                                    <th:block th:if="${resource.directoryYn}">
+                                        <label class="thumbnail__caption--description text-ellipsis"
+                                               th:text="|${resource.size} (${resource.count})|"></label>
+                                    </th:block>
+                                    <th:block th:unless="${resource.directoryYn}">
+                                        <label class="thumbnail__caption--description text-ellipsis" th:if="${resource.imageFileYn}"
+                                               th:text="|${resource.size} (${resource.width} X ${resource.height})|"></label>
+                                        <label class="thumbnail__caption--description text-ellipsis"
+                                               th:unless="${resource.imageFileYn}" th:text="|${resource.size}|"></label>
+                                    </th:block>
+                                </p>
+                            </div>
+                            <div class="thumbnail__footer flex-row justify-content-between align-items-center">
+                                <label class="thumbnail__footer--description text-ellipsis date-format" th:text="${resource.updateDt}"></label>
+                                <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable} and ${!isSearch}">
+                                    <div class="context-menu">
+                                        <button type="button" class="btn__ic context-menu__toggle p-0">
+                                            <span class="ic-meatballs"></span>
+                                        </button>
+                                        <ul class="context-menu__content left-bottom">
+                                            <th:block th:if="${resource.directoryYn}">
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                            onclick="openFolderModal(this);" th:text="#{resource.btn.rename}"></button>
+                                                </li>
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}" th:data-count="${resource.count}"
+                                                            onclick="removeFolder(this);" th:text="#{common.btn.delete}"></button>
+                                                </li>
+                                            </th:block>
+                                            <th:block th:unless="${resource.directoryYn}">
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                            onclick="removeFile(this);" th:text="#{common.btn.delete}"></button>
+                                                </li>
+                                            </th:block>
+                                            <th:block th:if="!${isRoot}">
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                            onclick="moveParentFolder(this);" th:text="#{resource.btn.moveParentFolder}"></button>
+                                                </li>
+                                            </th:block>
+                                        </ul>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+    </div>
+</div>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    const acceptFileExtensions = (/*[[${acceptFileExtensions}]]*/'').map((ext) => '.' + (ext).trim().toLowerCase());
+    const selectedClass = 'selected';
+    const imageExtensions = ['PNG', 'GIF', 'JPEG', 'JPG'];
+    let previewModal = null;
+    window.onload = function() {
+
+        // 허용 확장자 설정
+        const uploadFile =  document.getElementById('uploadFile');
+        if (uploadFile) {
+            uploadFile.setAttribute('accept', acceptFileExtensions.join());
+        }
+
+        // 목록 조회
+        getList();
+
+        // 검색 이벤트
+        document.getElementById('searchValue').addEventListener('keyup', (e) => {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+
+                // 기존 경로 초기화
+                const curPath = document.getElementById('basePath').value;
+                document.getElementById('searchPath').value = curPath;
+
+                // 브레드 크럼 경로 변경
+                makeBreadCrumb(curPath);
+
+                getList();
+            }
+        }, false);
+        document.addEventListener('click', onLeftClickHandler, false);
+
+        // 모달 초기화
+        previewModal = new modal({
+            title: `<span class="preview__caption text-ellipsis"></span>`,
+            body: `<div class="preview__image"></div>`,
+            classes: 'thumbnail-preview',
+            buttons: [{
+                content: '[(#{common.btn.close})]',
+                classes: 'btn__text--box secondary',
+                bindKey: false,
+                callback: (modal) => { modal.hide(); }
+            }],
+            close: { closable: false },
+            onHide: () => {
+                // 기존 선택된 클래스를 제거
+                deSelectThumbnail();
+            }
+        });
+    };
+
+    /**
+     * 선택된 썸네일 선택 해제
+     */
+    function deSelectThumbnail() {
+        document.querySelectorAll('.grid__thumbnail.selected').forEach((elem) => {
+            elem.classList.remove(selectedClass);
+        });
+    }
+
+    /**
+     * 리소스 조회(검색 포함)
+     * @param pageNum
+     */
+    function getList(pageNum = 1) {
+        const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
+        const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
+        const pageType = document.querySelector('.btn__toggle__button--single.selected').getAttribute('data-action');
+        const urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum
+            + '&pageType=' + pageType
+            + '&orderColName=' + orderColName
+            + '&orderDir=' + orderDir;
+
+        aliceJs.fetchText('/resources?' + urlParam, {
+            method: 'GET',
+            showProgressbar: true
+        }).then((htmlData) => {
+            const container = document.getElementById('resources');
+            container.innerHTML = '';
+            container.insertAdjacentHTML('beforeend', htmlData);
+
+            // 포맷 변경
+            setDateTimeFormat(container);
+            setFileExtensionFormat(container);
+            setPathFormat(container);
+
+            // 검색어 입력시, 동작 비활성화
+            const keyword = document.getElementById('searchValue').value;
+            setSearchCondition(keyword);
+
+            // ... 아이콘 클릭시 이벤트
+            container.querySelectorAll('.context-menu__toggle').forEach((dropdown) => {
+                dropdown.addEventListener('click', onToggleContextMenu, false);
+            });
+
+            // 컨텍스트 메뉴 위치 조정
+            setContextMenuPosition(pageType);
+        });
+    }
+
+    /**
+     * 검색어 입력시, 동작 비활성화
+     * 브레트 크럼 및 버튼 비활성화
+     */
+    function setSearchCondition(keyword) {
+        const breadcrumb = document.getElementById('breadcrumb');
+        const addFolderBtn = document.getElementById('addFolderBtn');
+        const uploadFileBtn = document.getElementById('uploadFileBtn');
+
+        if (keyword === '') {
+            breadcrumb.classList.remove('hidden');
+            addFolderBtn.classList.remove('hidden');
+            uploadFileBtn.classList.remove('hidden');
+
+            // Drag & Drop 설정
+            setDraggable(pageType);
+        } else {
+            breadcrumb.classList.add('hidden');
+            addFolderBtn.classList.add('hidden');
+            uploadFileBtn.classList.add('hidden');
+        }
+    }
+
+    /**
+     * 컨텍스트 메뉴 위치 조정
+     * @param pageType list or thumbnail
+     */
+    function setContextMenuPosition(pageType) {
+        const itemClassName = (pageType === 'thumbnail') ? 'grid__thumbnail' : 'grid__row';
+        const start = 12; // 12번째 부터 컨텍스트 메뉴가 위로 표시되어야 함
+        const items = document.querySelectorAll('.' + itemClassName);
+        if (items.length > start) {
+            const tempItems = Array.from(items).slice(start, items.length);
+            tempItems.forEach((item) => {
+                const contextMenu = item.querySelector('.context-menu__content');
+                if (contextMenu !== null) {
+                    if (contextMenu.classList.contains('left-bottom')) {
+                        contextMenu.classList.remove('left-bottom');
+                        contextMenu.classList.add('left-top');
+                    } else if (contextMenu.classList.contains('right-bottom')) {
+                        contextMenu.classList.remove('right-bottom');
+                        contextMenu.classList.add('right-top');
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * 드래그 & 드롭 이벤트 추가
+     * @param pageType list or thumbnail
+     */
+    function setDraggable(pageType) {
+        const target = document.querySelector('.list-group');
+        if (target === null) { return false; }
+
+        new Sortable(target, {
+            group: pageType,
+            swap: true,
+            swapClass: 'swap-highlight',
+            animation: 150,
+            draggable: '.list-group-item',
+            fallbackOnBody: true,
+            swapThreshold: 0.65,
+            onChoose: function() {
+                // 선택된 썸네일 선택 해제
+                deSelectThumbnail();
+            },
+            onClone: function(evt) {
+                evt.clone.classList.add(selectedClass);
+            },
+            onEnd: function(evt) {
+                evt.clone.classList.remove(selectedClass);
+                // 폴더로 이동한 경우
+                if (evt.swapItem.classList.contains('grid__item--folder') && evt.swapItem !== evt.item) {
+                    evt.swapItem.classList.add('hidden');
+                    evt.item.classList.add('hidden');
+
+                    const modName = evt.swapItem.children[0].getAttribute('data-name');
+                    const oriName = evt.item.children[0].getAttribute('data-name');
+                    const path = getPath();
+                    const fileSeparator = document.getElementById('fileSeparator').value;
+                    const saveData = {
+                        originPath: path + fileSeparator + oriName,
+                        modifyPath: path + fileSeparator + modName + fileSeparator + oriName
+                    };
+                    moveFile(saveData);
+                } else {
+                    // swap 롤백
+                    aliceJs.swapNode(evt.swapItem, evt.item);
+
+                    if (evt.swapItem.classList.contains('hidden')) {
+                        evt.swapItem.classList.remove('hidden');
+                        evt.item.classList.remove('hidden');
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     * @param target 대상
+     */
+    function setDateTimeFormat(target) {
+        target.querySelectorAll('.date-format').forEach((elem) => {
+            const userDateTime = i18n.userDateTime(elem.textContent);
+            elem.textContent = userDateTime;
+            elem.setAttribute('title', userDateTime);
+        });
+    }
+
+    /**
+     * 서버에서 전달받은 파일 확장자 포맷을 변경한다.
+     * @param target 대상
+     */
+    function setFileExtensionFormat(target) {
+        target.querySelectorAll('.extension-format').forEach((elem) => {
+            if (imageExtensions.indexOf(elem.textContent) > -1) {
+                const ext = '[(#{resource.label.image})]';
+                elem.textContent = ext;
+                elem.setAttribute('title', ext);
+            } else if (elem.textContent === 'FOLDER') {
+                const ext = '[(#{resource.label.folder})]';
+                elem.textContent = ext;
+                elem.setAttribute('title', ext);
+            }
+        });
+    }
+
+    /**
+     * 서버에서 전달받은 전체 파일 경로의 포맷을 변경한다.
+     * 공유 문서함 > 첫 번째 폴더 > ... > 바로 이전 폴더 > 현재 폴더
+     * @param target 대상
+     */
+    function setPathFormat(target) {
+        const fileSeparator = document.getElementById('fileSeparator').value;
+        const basePath = document.getElementById('basePath').value;
+        const base = '[(#{resource.label.sharedFolder})]';
+        target.querySelectorAll('.path-format').forEach((elem) => {
+            let pathTemplate = base;
+            const pathArr = elem.textContent.replace(basePath, '').split(fileSeparator);
+            if (pathArr.length > 2) {
+                pathTemplate += ' > ';
+                pathTemplate += (pathArr.slice(1, pathArr.length - 1).join(' > '));
+            }
+            elem.textContent = pathTemplate;
+            elem.setAttribute('title', pathTemplate);
+        });
+    }
+
+    /**
+     * 특정 폴더로 이동
+     * @param path 경로
+     */
+    function goFolder(path) {
+        const curPath = (path === '') ? document.getElementById('basePath').value : decodeURIComponent(path);
+
+        // 동일한 경로를 선택한 경우
+        if (document.getElementById('searchPath').value === curPath) { return false; }
+
+        // 브레드 크럼 경로 변경
+        makeBreadCrumb(curPath);
+
+        // 조회
+        document.getElementById('searchPath').value = curPath;
+        getList();
+    }
+
+    /**
+     * 브레드 크럼 경로 추가
+     * @param path 경로
+     */
+    function makeBreadCrumb(path) {
+        const fileSeparator = document.getElementById('fileSeparator').value;
+        const basePath = document.getElementById('basePath').value;
+
+        // 삭제
+        const breadcrumb = document.getElementById('breadcrumb');
+        while (breadcrumb.children.length > 1) {
+            breadcrumb.children[1].remove();
+        }
+
+        // 기본 경로를 제거하고 경로 추출
+        const pathArr = path.replace(basePath, '').split(fileSeparator);
+
+        // 5depth 이상일 경우 ... 표기
+        let breadcrumbTemplate = '';
+        let startIndex = 1;
+        let fullPath = basePath;
+        if (pathArr.length > 4) {
+            const shortBreadcrumbTemplate = pathArr.slice(startIndex, (pathArr.length - 2)).map((item) => {
+                fullPath += (fileSeparator + item);
+                return `<li class="context-menu__item" tabindex="-1" data-path="${fullPath}">
+                    <button type="button" class="btn__text--box" onclick="goFolder('${encodeURIComponent(fullPath)}');">
+                    ${item}</button>
+                </li>`.trim();
+            }).join('');
+
+            breadcrumbTemplate += (`<li class="breadcrumb__item flex-row align-items-center">
+                <div class="context-menu">
+                    <button type="button" class="btn__ic context-menu__toggle p-0">
+                        <span class="ic-meatballs"></span>
+                    </button>
+                    <ul class="context-menu__content left-bottom">${shortBreadcrumbTemplate}</ul>
+                </div>
+                <span class="ic-arrow-right ml-1 mr-1"></span>
+            </li>`).trim();
+            startIndex = (pathArr.length - 2);
+        }
+        pathArr.slice(startIndex, pathArr.length).map((item) => {
+            fullPath += (fileSeparator + item);
+            breadcrumbTemplate += (`<li class="breadcrumb__item flex-row align-items-center" data-path="${fullPath}">
+                <button type="button" class="btn__text--only" onclick="goFolder('${encodeURIComponent(fullPath)}');">
+                ${item}</button>
+                <span class="ic-arrow-right ml-1 mr-1"></span>
+            </li>`).trim();
+        });
+
+        breadcrumb.insertAdjacentHTML('beforeend', breadcrumbTemplate);
+
+        const shortBreadCrumb = breadcrumb.querySelector('.context-menu__toggle');
+        if (shortBreadCrumb) {
+            shortBreadCrumb.addEventListener('click', onToggleContextMenu, false);
+        }
+    }
+
+    /**
+     *  ... 아이콘 클릭시 dropdown 메뉴 오픈
+     */
+    function onToggleContextMenu(e) {
+        e.preventDefault();
+        if (e.target.classList.contains('active')) {
+            e.target.classList.remove('active');
+        } else {
+            e.target.classList.add('active');
+        }
+    }
+
+    /**
+     * 폴더 추가|수정 모달
+     */
+    function openFolderModal(target) {
+        const oriName = target.getAttribute('data-name');
+        const isModify = oriName !== null;
+        // 모달 생성
+        const addFolderModalTemplate = document.getElementById('folderModalTemplate');
+        const addFolderModal = new modal({
+            title: isModify ? '[(#{resource.label.rename})]' : '[(#{resource.label.newFolder})]',
+            body: addFolderModalTemplate.content.cloneNode(true),
+            classes: 'save-folder',
+            buttons: [{
+                content: isModify ? '[(#{common.btn.toModify})]' : '[(#{common.btn.register})]',
+                classes: 'btn__text--box primary',
+                bindKey: false,
+                callback: (modal) => {
+                    // 유효성 검증
+                    if (isEmpty('newFolderName', 'resource.msg.folderName')) return false;
+                    if (!isFileName('newFolderName', 'resource.msg.unacceptableCharacters')) return false;
+
+                    // 변경할 이름이 동일하면 변경없이 모달을 닫는다.
+                    const modName = modal.wrapper.querySelector('#newFolderName').value;
+                    if (modName === oriName) {
+                        modal.hide();
+                        return false;
+                    }
+
+                    // 폴더 추가 | 수정
+                    const method = isModify ? 'PUT' : 'POST';
+                    const path = getPath();
+                    const fileSeparator = document.getElementById('fileSeparator').value;
+                    const saveData = {
+                        originPath: path + fileSeparator + (isModify ? oriName : modName),
+                        modifyPath: isModify ? path + fileSeparator + modName : ''
+                    };
+                    addFolder(method, saveData, () => { modal.hide(); });
+                }
+            }, {
+                content: '[(#{common.btn.cancel})]',
+                classes: 'btn__text--box secondary',
+                bindKey: false,
+                callback: (modal) => { modal.hide(); }
+            }],
+            close: { closable: false },
+            onCreate: (modal) => {
+                if (isModify) {
+                    modal.wrapper.querySelector('#newFolderName').value = oriName;
+                }
+            }
+        });
+        addFolderModal.show();
+    }
+
+    /**
+     * 폴더 추가 | 폴더 이름 변경
+     * @param method PUT or POST
+     * @param method data 데이터
+     * @param callback 콜백함수
+     */
+    function addFolder(method, data, callback) {
+        const resultMsg = (method === 'POST') ? '[(#{common.msg.register})]' : '[(#{common.msg.update})]';
+        aliceJs.fetchJson('/rest/resources/folder', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            showProgressbar: true
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, () => {
+                        getList();
+
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+                    });
+                    break;
+                case aliceJs.response.duplicate:
+                    zAlert.warning('[(#{resource.msg.duplicateFolderName})]');
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger('[(#{common.msg.fail})]');
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    /**
+     * 상위 폴더로 이동
+     */
+    function moveParentFolder(target) {
+        const fileName = target.getAttribute('data-name');
+        const fileSeparator = document.getElementById('fileSeparator').value;
+        const path = getPath();
+        const pathArr = path.split(fileSeparator);
+        const tempArr = pathArr.slice(0, pathArr.length - 1);
+        const saveData = {
+            originPath: path + fileSeparator + fileName,
+            modifyPath: tempArr.join(fileSeparator) + fileSeparator + fileName
+        };
+        moveFile(saveData);
+    }
+
+    /**
+     * 폴더 이동
+     * @param method data 데이터
+     */
+    function moveFile(data) {
+        aliceJs.fetchJson('/rest/resources/file/move', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            showProgressbar: true
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    getList();
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger('[(#{common.msg.fail})]');
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    /**
+     * 폴더 삭제
+     * @param target 대상
+     */
+    function removeFolder(target) {
+        // 알림창을 띄워서 내부에 파일 모두 삭제를 확인하기
+        const confirmMsg = Number(target.getAttribute('data-count')) > 0 ?
+            '[(#{resource.msg.confirmFolderDelete})]' : '[(#{common.msg.confirmDelete})]';
+        const folderName = target.getAttribute('data-name');
+        const fileSeparator = document.getElementById('fileSeparator').value;
+        const removePath = getPath() + fileSeparator + folderName;
+        zAlert.confirm(confirmMsg, () => {
+            aliceJs.fetchJson('/rest/resources/folder?path=' + encodeURIComponent(removePath), {
+                method: 'DELETE',
+                showProgressbar: true
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success('[(#{common.msg.delete})]', () => {
+                            getList();
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger('[(#{common.msg.fail})]');
+                        break;
+                    default :
+                        break;
+                }
+            });
+        });
+    }
+
+    /**
+     * 현재 폴더 경로
+     * @return string 경로
+     */
+    function getPath() {
+        const breadcrumb = document.getElementById('breadcrumb');
+        return breadcrumb.lastElementChild.getAttribute('data-path');
+    }
+
+    /**
+     * 파일 추가
+     * @param target 파일 객체
+     */
+    function addFile(target) {
+        const files = target.files;
+        if (files.length === 0) { return false; }
+
+        // 첨부파일 확장자 체크
+        const validExtensions = acceptFileExtensions.map((ext) => ext.replace('.', ''));
+        if (isAllowedExtensions(validExtensions, files)) {
+            uploadFile(files);
+        } else {
+            zAlert.confirm('[(#{resource.msg.existNotAllowedExtension})]', () => {
+                uploadFile(files);
+            }, () => {
+                document.getElementById('uploadFile').value = '';  // 취소시 file object 값 비움 처리
+            });
+        }
+    }
+
+    /**
+     * 파일 업로드
+     * @param files 파일 목록
+     */
+    function uploadFile(files) {
+        const xhr = new XMLHttpRequest(),
+            formData = new FormData();
+
+        Array.from(files).forEach((file) => {
+            formData.append('files', file);
+        });
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                getList();
+            }
+        };
+        const path = getPath();
+        const type = document.getElementById('type').value;
+        xhr.open('POST', '/rest/resources/file/upload?type=' + type + '&path=' + encodeURIComponent(path), true);
+        xhr.send(formData);
+
+        // 성공시 file object 값 비움 처리
+        document.getElementById('uploadFile').value = '';
+    }
+
+    /**
+     * 파일 이름 변경
+     * @param target 대상 엘리먼트
+     */
+    function changeFileName(target) {
+        const oriName = target.textContent.trim();
+        target.style.display = 'none';
+
+        const elem = target.parentNode.querySelector('input');
+        let extension = oriName.split('.').pop();
+        elem.value = oriName.split('.' + extension)[0];
+        elem.style.display = 'block';
+
+        elem.addEventListener('blur', renameFile, false);
+        elem.addEventListener('keyup', function(e) {
+            if (e.keyCode === 13) {
+                e.target.blur();
+            }
+        }, false);
+        elem.focus();
+    }
+
+    /**
+     * 파일 이름 변경시 호출
+     * @param e 이벤트 객체
+     */
+    function renameFile(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        // 유효성 검증
+        if (!isFileName(e.target.id, 'resource.msg.unacceptableCharacters')) return false;
+
+        e.target.removeEventListener('blur', renameFile, false);
+        e.target.removeEventListener('keyup', renameFile, false);
+
+        const elem = e.target.parentNode.querySelector('label');
+        e.target.style.display = 'none';
+        elem.style.display = 'block';
+
+        // 이름이 동일할 경우 서버단을 호출하지 않음
+        const name = elem.textContent.trim();
+        const extension = name.split('.').pop();
+        const value = e.target.value.trim();
+        const modifyName = (value !== '') ? value + '.' + extension : '';
+        if (name === modifyName) { return false; }
+
+        // 이름 변경
+        const path = getPath();
+        const fileSeparator = document.getElementById('fileSeparator').value;
+        const saveData = {
+            originPath: path + fileSeparator + name,
+            modifyPath: path + fileSeparator + modifyName
+        };
+
+        aliceJs.fetchJson('/rest/resources/file', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success('[(#{common.msg.update})]', () => {
+                        getList();
+                    });
+                    break;
+                case aliceJs.response.notExist:
+                    zAlert.warning('[(#{resource.msg.failedRename})]');
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger('[(#{common.msg.fail})]');
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    /**
+     * 파일 삭제
+     * @param target 대상 엘리먼트
+     */
+    function removeFile(target) {
+        const fileName = target.getAttribute('data-name');
+        const fileSeparator = document.getElementById('fileSeparator').value;
+        const removePath = getPath() + fileSeparator + fileName;
+        const type = document.getElementById('type').value;
+        zAlert.confirm('[(#{common.msg.confirmDelete})]', () => {
+            aliceJs.fetchJson('/rest/resources/file?type=' + type + '&path=' + encodeURIComponent(removePath), {
+                method: 'DELETE',
+                showProgressbar: true
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success('[(#{common.msg.delete})]', () => {
+                            getList();
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger('[(#{common.msg.fail})]');
+                        break;
+                    default :
+                        break;
+                }
+            });
+        });
+    }
+
+    /**
+     * 파일 다운로드
+     * @param target 대상 엘리먼트
+     */
+    function downLoadFile(target) {
+        const fileName = target.getAttribute('data-name');
+        const fileSeparator = document.getElementById('fileSeparator').value;
+        const downloadPath = getPath() + fileSeparator + fileName;
+        const type = document.getElementById('type').value;
+        aliceJs.fetchBlob('/rest/resources/file/download?type=' + type + '&path=' + encodeURIComponent(downloadPath), {
+            method: 'GET',
+            showProgressbar: true
+        }).then(blob => {
+            if (typeof blob === 'object') {
+                const a = document.createElement('a');
+                const url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } else {
+                zAlert.warning('[(#{resource.msg.noFile})]');
+            }
+        }).catch(err => {
+            zAlert.danger(err);
+        });
+    }
+
+    /**
+     * 리스트 보기 | 썸네일 보기
+     */
+    function onClickPageType(e) {
+        const buttonGroup = e.parentNode;
+        // 초기화
+        for (let i = 0, len = buttonGroup.children.length ; i< len; i++) {
+            let child = buttonGroup.children[i];
+            if (child.classList.contains('selected')) {
+                child.classList.remove('selected');
+            }
+        }
+        e.classList.add('selected');
+
+        // 조회
+        getList();
+    }
+
+    /**
+     * 미리보기 모달
+     */
+    function openPreviewModal(target) {
+        target.parentNode.classList.add(selectedClass);
+
+        // 이미지 파일명 제목 표시
+        const previewCaption = previewModal.wrapper.querySelector('.preview__caption');
+        if (previewCaption !== null) {
+            const name = target.getAttribute('data-name');
+            previewCaption.textContent = name;
+            previewCaption.setAttribute('title', name);
+        }
+
+        // 내부 이미지 경로 변경
+        const previewImage = previewModal.wrapper.querySelector('.preview__image');
+        if (previewImage !== null) {
+            previewImage.style.backgroundImage = target.style.backgroundImage;
+        }
+
+        previewModal.show();
+    }
+
+    /**
+     * 마우스 좌클릭 이벤트 핸들러
+     * @param e 이벤트객체
+     */
+    function onLeftClickHandler(e) {
+        // 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
+        if (e.target !== null && !aliceJs.clickInsideElement(e, 'context-menu')) {
+            document.querySelectorAll('.context-menu__toggle').forEach((dropdown) => {
+                if (dropdown.classList.contains('active')) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        }
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

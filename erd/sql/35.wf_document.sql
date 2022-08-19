@@ -68,10 +68,14 @@ INSERT INTO wf_document VALUES ('4028b22f7cc55c1a017cc5775d10026b','어플리케
 /* 문제관리 */
 INSERT INTO wf_document VALUES ('4028b21c7cdffb67017ce0b4d3e30872','문제관리','','4028b21c7cdffb67017ce0b33f5e07b6','4028b21c7cdffb67017ce0b3fce307b7','document.status.use','4028b88178c01b660178c0cc91310004','#76BD26','document.type.workflow','document.group.incident',false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 장애관리 */
-INSERT INTO wf_document VALUES ('4028b21c7cdffb67017ce0b70509093e','장애관리','','4028b21c7cdffb67017ce0b1d3af07b5','4028b21c7cdffb67017ce0b5f9920873','document.status.use','4028b88178c0fcc60178c10dbb5b0003','#FF850A','document.type.workflow','document.group.incident',false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
+INSERT INTO wf_document VALUES ('4028b21c7cdffb67017ce0b70509093e','장애관리','','4028b21c7cdffb67017ce0b1d3af07b5','4028b21c7cdffb67017ce0b5f9920873','document.status.use','4028b88178c0fcc60178c10dbb5b0003','#FF850A','document.type.workflow','document.group.incident',true,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 서비스 연속성 관리 계획서 */
 INSERT INTO wf_document VALUES ('4028b21c82343bfb01823453b1bf0029','서비스 연속성 관리 계획서','','4028b21c821952af01821a0baf1c0175','4028b21c8233ff430182340690a20000','document.status.use','4028b21c821e445f01821e4cc6d40001','#C3D2FE','document.type.application-form','document.group.report',false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 복구 훈련 계획서 */
 INSERT INTO wf_document VALUES ('4028b21c82343bfb0182345ad3bf002a', '복구 훈련 계획서','','4028b21c821952af01821a0baf1c0175', '4028b21c8233ff43018234224021004d', 'document.status.use', '4028b21c821e445f01821e4cc6d40001','#C3D2FE','document.type.application-form','document.group.report',false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 복구 훈련 결과서 */
 INSERT INTO wf_document VALUES ('4028b21c82343bfb01823466bff5002b', '복구 훈련 결과서','','4028b21c821952af01821a0baf1c0175', '4028b21c82343bfb018234420f630000', 'document.status.use', '4028b21c821e445f01821e4cc6d40001','#C3D2FE','document.type.application-form','document.group.report',false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
+/* 용량 검토 보고서 */
+INSERT INTO wf_document VALUES ('40288a9d826b8fbf01826cdf77130082', '용량 검토 보고서', '', '40288a9d826b8fbf01826cd178780053', '40288a9d826b8fbf01826cd3ff160054', 'document.status.use', '40288a9d827ace2901827b1ba1220020', '#ADE6FD', 'document.type.application-form', 'document.group.report', false, '0509e09412534a6e98f04ca79abb6424', '2021-11-09 13:00:41.226803', NULL, NULL);
+/* 용량 조치 보고서 */
+INSERT INTO wf_document VALUES ('40288a9d827b4bf001827b9206bb0026', '용량 조치 보고서', '', '40288a9d826b8fbf01826cd178780053', '40288a9d827b4bf001827b8ede710013', 'document.status.use', '40288a9d827ace2901827b1ba1220020', '#ADE6FD', 'document.type.application-form', 'document.group.report', false, '0509e09412534a6e98f04ca79abb6424', '2021-11-09 13:00:41.226803', NULL, NULL);

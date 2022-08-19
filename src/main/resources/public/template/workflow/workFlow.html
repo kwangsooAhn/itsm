@@ -213,6 +213,7 @@
     /*[/]*/
 
     window.onload = function() {
+        // 신청서 타입
         const documentType = document.getElementById('documentType').value;
         setDocumentType(documentType);
 
@@ -355,7 +356,9 @@
         };
 
         let url = (documentType === TYPE_LINK) ? '/rest/workflows/workflowLink' : '/rest/workflows';
-        if (method === 'PUT' && documentId !== undefined) {
+        if (meth
+
+            od === 'PUT' && documentId !== undefined) {
             documentInfo.documentId = documentId;
             url += '/' + documentId;
         }

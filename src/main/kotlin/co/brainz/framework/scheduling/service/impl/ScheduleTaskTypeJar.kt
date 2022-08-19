@@ -9,7 +9,7 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.scheduling.repository.AliceScheduleHistoryRepository
-import co.brainz.framework.util.AliceFileUtil
+import co.brainz.framework.util.AliceResourceUtil
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component
 class ScheduleTaskTypeJar(
     environment: Environment,
     private val aliceScheduleHistoryRepository: AliceScheduleHistoryRepository
-) : AliceFileUtil(environment) {
+) : AliceResourceUtil(environment) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 

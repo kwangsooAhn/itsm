@@ -20,6 +20,7 @@ const spcialKeyAscilCodeList = [9, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 3
 const phoneReg = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
 const extensionNumberReg = /^[0-9]{4}$/;
 const urlReg = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/;
+const fileNameReg = /^(?!\.)(?!com[0-9]$)(?!con$)(?!lpt[0-9]$)(?!nul$)(?!prn$)[^\|\*\?\\:<>/$"]*[^\.\|\*\?\\:<>/$"]+$/;
 
 /**
  * 해당 엘리먼트가 null 인지 판별한다.
@@ -72,7 +73,7 @@ function isNotNull(elementId, messageId, callbackFunc) {
  */
 function isEmpty(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
-    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function() {
         elem.focus();
     };
     if (elem !== null) {
@@ -281,11 +282,11 @@ function isValidPassword(elementId, callbackFunc) {
  */
 function isValidEmail(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!emailReg.test(elem.value)) {
             if (isMessage) {
-                zAlert.warning(i18n.msg('validation.msg.checkEmailFormat'), function () {
+                zAlert.warning(i18n.msg('validation.msg.checkEmailFormat'), function() {
                     elem.value = '';
                     elem.focus();
                     callback();
@@ -314,11 +315,11 @@ function isValidEmail(elementId, isMessage, callbackFunc) {
  */
 function isValidUserId(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!idReg.test(elem.value)) {
             if (isMessage) {
-                zAlert.warning(i18n.msg('validation.msg.checkUserIdFormat'), function () {
+                zAlert.warning(i18n.msg('validation.msg.checkUserIdFormat'), function() {
                     elem.value = '';
                     elem.focus();
                     callback();
@@ -347,11 +348,11 @@ function isValidUserId(elementId, isMessage, callbackFunc) {
  */
 function isValidRgb(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!rgbReg.test(elem.value)) {
             if (isMessage) {
-                zAlert.warning(i18n.msg('validation.msg.checkRgbFormat'), function () {
+                zAlert.warning(i18n.msg('validation.msg.checkRgbFormat'), function() {
                     elem.value = '';
                     elem.focus();
                     callback();
@@ -378,11 +379,11 @@ function isValidRgb(elementId, isMessage, callbackFunc) {
  */
 function isValidNumber(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!numberReg.test(elem.value)) {
             if (isMessage) {
-                zAlert.warning(i18n.msg('validation.msg.number'), function () {
+                zAlert.warning(i18n.msg('validation.msg.number'), function() {
                     elem.value = '';
                     elem.focus();
                     callback();
@@ -411,11 +412,11 @@ function isValidNumber(elementId, isMessage, callbackFunc) {
  */
 function isValidChar(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (!charReg.test(elem.value)) {
             if (isMessage) {
-                zAlert.warning(i18n.msg('validation.msg.char'), function () {
+                zAlert.warning(i18n.msg('validation.msg.char'), function() {
                     elem.value = '';
                     elem.focus();
                     callback();
@@ -445,11 +446,11 @@ function isValidChar(elementId, isMessage, callbackFunc) {
  */
 function isValidMax(elementId, maxValue, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && maxValue !== undefined) {
         if (maxValue !== '' && elem.value > Number(maxValue)) {
             if (isMessage) {
-                zAlert.warning(i18n.msg('validation.msg.max', maxValue), function () {
+                zAlert.warning(i18n.msg('validation.msg.max', maxValue), function() {
                     elem.value = maxValue;
                     elem.focus();
                     callback();
@@ -479,11 +480,11 @@ function isValidMax(elementId, maxValue, isMessage, callbackFunc) {
  */
 function isValidMin(elementId, minValue, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && minValue !== undefined) {
         if (minValue !== '' && elem.value < Number(minValue)) {
             if (isMessage) {
-                zAlert.warning(i18n.msg('validation.msg.min', minValue), function () {
+                zAlert.warning(i18n.msg('validation.msg.min', minValue), function() {
                     elem.value = minValue;
                     elem.focus();
                     callback();
@@ -513,11 +514,11 @@ function isValidMin(elementId, minValue, isMessage, callbackFunc) {
  */
 function isValidMaxLength(elementId, maxLength, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && maxLength !== undefined) {
         if (maxLength !== '' && elem.value.length > Number(maxLength)) {
             if (isMessage) {
-                zAlert.warning(i18n.msg('validation.msg.maxLength', maxLength), function () {
+                zAlert.warning(i18n.msg('validation.msg.maxLength', maxLength), function() {
                     elem.value = elem.value.substring(0, maxLength);
                     elem.focus();
                     callback();
@@ -547,11 +548,11 @@ function isValidMaxLength(elementId, maxLength, isMessage, callbackFunc) {
  */
 function isValidMinLength(elementId, minLength, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null && minLength !== undefined) {
         if (minLength !== '' && elem.value.length < Number(minLength)) {
             if (isMessage) {
-                zAlert.warning(i18n.msg('validation.msg.minLength', minLength), function () {
+                zAlert.warning(i18n.msg('validation.msg.minLength', minLength), function() {
                     elem.focus();
                     callback();
                 });
@@ -578,13 +579,13 @@ function isValidMinLength(elementId, minLength, isMessage, callbackFunc) {
  */
 function isValidRequired(elementId, isMessage, callbackFunc) {
     const elem = isNullElement(elementId);
-    let callback = typeof callbackFunc === 'function' ? callbackFunc : function () {}; //콜백함수가 없을시 빈 함수 생성
+    let callback = typeof callbackFunc === 'function' ? callbackFunc : function() {}; //콜백함수가 없을시 빈 함수 생성
     if (elem !== null) {
         if (elem.required && elem.value.trim() === '') {
             if (isMessage) {
                 const requiredElemName = elem.getAttribute('data-validation-required-name');
                 let requiredMsg = (requiredElemName !== null) ? i18n.msg('common.msg.required', requiredElemName) : i18n.msg('common.msg.requiredEnter');
-                zAlert.warning(requiredMsg, function () {
+                zAlert.warning(requiredMsg, function() {
                     elem.focus();
                     callback();
                 });
@@ -622,7 +623,7 @@ function isValidRequiredAll(modal) {
         if (requiredElem.value.trim() === '') {
             requiredElem.classList.add(errorClass);
             let requiredMsg = (requiredElemName !== null) ? i18n.msg('common.msg.required', requiredElemName) : i18n.msg('common.msg.requiredEnter');
-            zAlert.warning(requiredMsg, function () {
+            zAlert.warning(requiredMsg, function() {
                 requiredElem.focus();
             });
             return false;
@@ -754,7 +755,7 @@ function isChecked(name, messageId) {
 
 function isPhoneNumberOrExtenstionNumber(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
-    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function() {
         elem.focus();
     };
     if (elem !== null) {
@@ -771,7 +772,7 @@ function isPhoneNumberOrExtenstionNumber(elementId, messageId, callbackFunc) {
 
 function isPhoneNumber(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
-    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function() {
         elem.focus();
     };
     if (elem !== null) {
@@ -792,7 +793,7 @@ function isPhoneNumber(elementId, messageId, callbackFunc) {
  */
 function isUrl(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
-    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function() {
         elem.focus();
     };
     if (elem !== null) {
@@ -813,7 +814,7 @@ function isUrl(elementId, messageId, callbackFunc) {
  */
 function isSpecialChar(elementId, messageId, callbackFunc) {
     const elem = isNullElement(elementId);
-    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function() {
         elem.focus();
     };
     if (elem !== null) {
@@ -829,20 +830,25 @@ function isSpecialChar(elementId, messageId, callbackFunc) {
 }
 
 /**
- * Json타입인지 확인하고 Json의 Key리스트들이 있는지 확인한다.
+ * 파일 이름 유효성 검증
+ * @param elementId
+ * @param messageId
+ * @param callbackFunc
  * @returns {boolean}
  */
-function isJson(jsonData, keyList) {
-    let json;
-    try {
-        json = JSON.parse(jsonData);
-    } catch (e) {
-        return false;
-    }
-    for(let i = 0 ; i < keyList.length ; i ++) {
-        if (!json.hasOwnProperty(keyList[i])) {
+function isFileName(elementId, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function() {
+        elem.focus();
+    };
+    if (elem !== null) {
+        if (!(elem.value).match(fileNameReg)) {
+            if (messageId !== undefined) {
+                zAlert.warning(i18n.msg(messageId), callback);
+            }
             return false;
         }
+        return true;
     }
-    return true;
+    return false;
 }

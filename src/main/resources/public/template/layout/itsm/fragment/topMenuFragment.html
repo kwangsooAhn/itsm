@@ -18,22 +18,25 @@
             </span>
         </span>
         <span class="divide">|</span>
-        <button class="user user-info flex-row align-items-center" tabindex="0">
-            <img class="i-user-profile user"
-                 th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
-            <span class="user user-name text-ellipsis" sec:authentication="details.userName"></span>
-            <span class="user ic-arrow-right"></span>
-        </button>
-        <ul class="context-menu">
-            <li class="context-menu__item" tabindex="-1">
-                <button class="context-menu__item-btn align-left" th:text="#{common.btn.editUserInfo}"
-                        onclick="openPasswordConfirmModal()" tabindex="0"></button>
-            </li>
-            <li class="context-menu__item" tabindex="-1">
-                <button class="context-menu__item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()"
-                        tabindex="0"></button>
-            </li>
-        </ul>
+
+        <div class="context-menu user-info">
+            <button type="button" class="btn__ic context-menu__toggle flex-row align-items-center">
+                <img class="user i-user-profile"
+                     th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
+                <span class="user user-name text-ellipsis" sec:authentication="details.userName"></span>
+                <span class="user ic-arrow-right"></span>
+            </button>
+            <ul class="context-menu__content right-bottom mt-1 mr-1">
+                <li class="context-menu__item" tabindex="-1">
+                    <button type="button" class="btn__text--box"  th:text="#{common.btn.editUserInfo}"
+                            onclick="openPasswordConfirmModal()"></button>
+                </li>
+                <li class="context-menu__item" tabindex="-1">
+                    <button type="button" class="btn__text--box"  th:text="#{common.btn.logout}"
+                            onclick="logout()" tabindex="0"></button>
+                </li>
+            </ul>
+        </div>
     </div>
     <div id="notification-panel" class="notification-panel"></div>
     <div id="toast-panel" name="toast-panel"></div>
@@ -42,8 +45,8 @@
         /*<![CDATA[ */
         let notificationDiv = null;
         window.addEventListener('DOMContentLoaded', function() {
-            const userInfo = document.querySelector('.user-info');
-            document.querySelector('.user-info').addEventListener('click', function(e) {
+            const userInfo = document.querySelector('.user-info .context-menu__toggle');
+            userInfo.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (this.classList.contains('active')) {
                     this.classList.remove('active');

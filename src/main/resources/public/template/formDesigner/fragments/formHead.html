@@ -17,6 +17,7 @@
     <script th:src="@{/assets/js/lib/zAlert.js}"></script>
     <script th:src="@{/assets/js/lib/zDatetimepicker.js}"></script>
     <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
+    <script th:src="@{/assets/js/lib/zThumbnail.js}"></script>
     <script th:src="@{/assets/vendors/quill/quill.js}"></script>
     <script th:src="@{/assets/vendors/quill/quill.custom.js}"></script>
     <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
@@ -35,7 +36,8 @@
         i18n.init(JSON.stringify({
             dateTimeFormat: '[[${#authentication.details.timeFormat}]]',
             dateFormat: parsedDateTimeFormat[0],
-            timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1] + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
+            timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1]
+                + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
             lang: '[[${#authentication.details.lang}]]',
             timezone: '[[${#authentication.details.timezone}]]'
         }));

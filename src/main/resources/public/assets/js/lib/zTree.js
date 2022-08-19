@@ -127,10 +127,14 @@
                     node_id = item.organizationId;
                     node_name = item.organizationName;
                     node_value = item.organizationId;
-                } else {
+                } else if (item.classId !== '' && item.classId !== undefined) {
                     node_id = item.classId;
                     node_name = item.className;
                     node_value = item.classId;
+                } else {
+                    node_id = item.serviceCode;
+                    node_name = item.serviceName;
+                    node_value = item.serviceCode;
                 }
                 let node = {
                     id: node_id,
@@ -224,6 +228,11 @@
                     v_icon_image = p_node.data.iconData;
                 }
                 v_icon = createImgElement(null, 'icon_tree', v_icon_image);
+                // CI 파일은 크기가 20 * 20 으로 표시되어야 이미지 파일이 깨지지 않음
+                if (options.source === 'ciType') {
+                    v_icon.width = 23; // 아이콘 사이즈 20 + 패딩 3
+                    v_icon.height = 20;
+                }
 
                 let v_li = document.createElement('li');
                 p_node.elementLi = v_li;
@@ -574,6 +583,9 @@
                     break;
                 case 'organization':
                     p_node_id = item.porganizationId;
+                    break;
+                case 'service':
+                    p_node_id = item.pserviceCode;
                     break;
                 default:
                     p_node_id = item.pcode;

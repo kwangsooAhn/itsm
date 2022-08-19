@@ -12,8 +12,8 @@ import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
-import co.brainz.framework.fileTransaction.provider.AliceFileProvider
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.resourceManager.constants.ResourceConstants
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
@@ -40,6 +40,8 @@ import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.Gson
+import java.io.File
+import java.nio.file.Paths
 import java.time.format.DateTimeFormatter
 import javax.transaction.Transactional
 import javax.xml.parsers.DocumentBuilderFactory
@@ -51,12 +53,11 @@ import org.w3c.dom.NodeList
 
 @Service
 class TokenService(
-    private val aliceFileProvider: AliceFileProvider,
+    private val aliceResourceProvider: AliceResourceProvider,
     private val documentActionService: DocumentActionService,
     private val wfInstanceService: WfInstanceService,
     private val wfTokenService: WfTokenService,
     private val wfComponentService: WfComponentService,
-    private val aliceFileService: AliceFileService,
     private val currentSessionUser: CurrentSessionUser,
     private val wfEngine: WfEngine,
     private val aliceMessageSource: AliceMessageSource,
@@ -94,7 +95,7 @@ class TokenService(
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
-                true -> this.aliceFileService.upload(it.value)
+                true -> this.aliceResourceProvider.setUploadFileLoc(it.value)
             }
         }
         val isSuccess = wfEngine.startWorkflow(wfEngine.toTokenDto(tokenDto))
@@ -162,7 +163,7 @@ class TokenService(
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
-                true -> this.aliceFileService.upload(it.value)
+                true -> this.aliceResourceProvider.setUploadFileLoc(it.value)
             }
         }
         val statusCode = wfEngine.progressWorkflow(wfEngine.toTokenDto(tokenDto))
@@ -295,7 +296,9 @@ class TokenService(
     fun getTokenStatus(instanceId: String): TokenStatusDto {
         val resultString = Gson().toJson(wfInstanceService.getInstanceLatestToken(instanceId))
         val tokenStatusDto = Gson().fromJson(resultString, TokenStatusDto::class.java)
-        val xmlFile = aliceFileProvider.getProcessStatusFile(tokenStatusDto.processId)
+        val dirPath = aliceResourceProvider.getExternalPath(ResourceConstants.FileType.PROCESS.code)
+        val xmlFile = Paths.get(dirPath.toString() + File.separator + tokenStatusDto.processId + ".xml").toFile()
+
         if (xmlFile.exists()) {
             val xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile)
             xmlDoc.documentElement.normalize()

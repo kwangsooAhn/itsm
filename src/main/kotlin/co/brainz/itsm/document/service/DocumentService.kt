@@ -89,7 +89,11 @@ class DocumentService(
 
         val roleList = mutableListOf<String>()
         roleService.getUserRoleList(aliceUserDto.userKey).forEach { roleList.add(it.roleId) }
-        val validDocumentIds = aliceDocumentRoleMapRepository.findDocumentIdsByRoles(roleList)
+        val validDocumentIds
+            = when (documentSearchCondition.searchDocumentType?.equals(DocumentConstants.DocumentType.DOCUMENT_SEARCH)) {
+                true -> aliceDocumentRoleMapRepository.findDocumentIdsByRoles(roleList)
+                else -> mutableListOf()
+            }
         val documentQueryResult = wfDocumentRepository.findByDocuments(documentSearchCondition, validDocumentIds)
         val documentLinkQueryResult = wfDocumentLinkRepository.findByDocumentLink(documentSearchCondition, validDocumentIds)
 
@@ -114,7 +118,7 @@ class DocumentService(
             }
         }
 
-        val documentList = DocumentListReturnDto(
+        return DocumentListReturnDto(
             data = if (totalResult.isNotEmpty()) totalResult.subList(fromIndex, toIndex) else totalResult,
             paging = AlicePagingData(
                 totalCount = totalResult.size.toLong(),
@@ -124,8 +128,6 @@ class DocumentService(
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
-
-        return documentList
     }
 
     /**
@@ -147,6 +149,7 @@ class DocumentService(
 
     /**
      * 업무흐름 조회.
+     * .
      */
     fun getDocumentAdmin(documentId: String): DocumentDto {
         return wfDocumentService.getDocument(documentId)
@@ -207,7 +210,7 @@ class DocumentService(
     /**
      * Update Document.
      *
-     * @param documentDto
+     * @param documentEditDto
      * @return Boolean
      */
     fun updateDocument(

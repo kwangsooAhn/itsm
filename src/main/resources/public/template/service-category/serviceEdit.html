@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/treeEditLayout}">
+<head>
+    <title th:text="#{service.label.service}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/lib/zPageMutationObserver.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{service.label.service}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{service.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
+           maxlength="100" th:placeholder="#{service.label.searchPlaceholder}"/>
+    <span id="totalCount" class="search-count"></span>
+    <div class="ml-auto" sec:authorize="hasAuthority('service.manage')">
+        <button type="button" class="btn__text--box primary" id="btnCreate" name="btnCreate"
+                th:text="#{common.btn.add}" onclick="onCreate()"></button>
+    </div>
+</div>
+<div layout:fragment="pageTree">
+    <div id="treeList"></div>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="required" th:text="#{service.label.code}" for="serviceCode"></label>
+                <input id="serviceCode" name="serviceCode" class="text-ellipsis col-pct-12" type="text"
+                       maxlength="100"/>
+            </div>
+            <div class="flex-column flex-fill">
+                <label class="required" th:text="#{service.label.pCode}" for="pServiceCode"></label>
+                <input id="pServiceCode" name="pServiceCode" class="text-ellipsis col-pct-12" type="text"
+                       maxlength="100" disabled/>
+            </div>
+        </div>
+        <div class="edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="required" th:text="#{service.label.name}" for="serviceName"></label>
+                <input id="serviceName" name="serviceName" class="text-ellipsis col-pct-12" type="text"
+                       maxlength="100"/>
+            </div>
+            <div class="flex-column flex-fill">
+                <label class="form-title" th:text="#{service.label.seqNum}" for="seqNum"></label>
+                <input id="seqNum" name="seqNum" class="text-ellipsis col-pct-12" type="text"
+                       onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
+            </div>
+        </div>
+        <div class="edit-row flex-column">
+            <label class="btn__toggle__switch">
+                <span class="btn__toggle__switch__label" th:text="#{service.label.useYn}"></span>
+                <input type="checkbox" id="useYn" name="useYn">
+                <span></span>
+            </label>
+        </div>
+        <div class="edit-row flex-column">
+            <label class="form-title" th:text="#{service.label.description}" for="serviceDesc"></label>
+            <textarea id="serviceDesc" name="serviceDesc" th:maxlength="200" th:rows="4"></textarea>
+        </div>
+        <div class="edit-row flex-column">
+            <label class="form-title" th:text="#{service.label.avaGoal}" for="avaGoal"></label>
+            <textarea id="avaGoal" name="avaGoal" th:maxlength="200" th:rows="4"></textarea>
+        </div>
+        <div class="edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="form-title" th:text="#{service.label.startDate}" for="startDate"></label>
+                <input type="text" class="ic-date-picker search-date col-pct-12" id="startDate" name="startDate"/>
+            </div>
+            <div class="flex-column flex-fill">
+                <label class="form-title" th:text="#{service.label.endDate}" for="endDate"></label>
+                <input type="text" class="ic-date-picker search-date col-pct-12" id="endDate" name="endDate"/>
+            </div>
+        </div>
+        <div class="flex-row justify-content-end">
+            <div class="btn__list" sec:authorize="hasAuthority('service.manage')">
+                <button type="button" class="btn__text--box primary" id="btnRegist" name="btnRegist"
+                        th:onclick="onSave('POST')" th:text="#{common.btn.register}"></button>
+                <button type="button" class="btn__text--box primary" id="btnUpdate" name="btnUpdate"
+                        th:onclick="onSave('PUT')" th:text="#{common.btn.modify}"></button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    let observer = aliceJs.pageObserver;
+    let startDate = i18n.getDate();
+    /* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
+    const specialCharInServiceCode = /[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/; //특수문자 포함 (. 제외)
+
+    window.addEventListener('load', function() {
+        observer.set();
+        onCreate();
+        getServiceList();
+
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getServiceList()), false);
+
+        OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.getElementById('serviceDesc'), {
+            className: 'scrollbar',
+            resize: 'none',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: 'class'
+            }
+        });
+        OverlayScrollbars(document.getElementById('avaGoal'), {
+            className: 'scrollbar',
+            resize: 'none',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: 'class'
+            }
+        });
+        zDateTimePicker.initDatePicker(document.getElementById('startDate'), setDatePicker);
+        zDateTimePicker.initDatePicker(document.getElementById('endDate'), setDatePicker);
+    });
+
+    /** service list **/
+    function getServiceList() {
+        const searchValue = encodeURIComponent(document.getElementById('searchValue').value);
+        tree.load({
+            source: 'service',
+            dataUrl: '/rest/service-category?searchValue=' + searchValue,
+            target: 'treeList',
+            text: 'serviceName',
+            leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
+            totalCount: true,
+            onCreate: function() {
+                document.getElementById('treeList').querySelector('.node').click();
+            },
+            selectedNode: function(response) {
+                onGetDetail(response.id);
+            }
+        });
+    }
+
+    /** service 상세 정보 **/
+    function onGetDetail(serviceCode) {
+        if (!observer.canPageChange()) { return false; }
+
+        aliceJs.fetchJson('/rest/service-category/' + serviceCode, {
+            method: 'GET'
+        }).then((response) => {
+            // 서비스 코드
+            const serviceCode = document.getElementById('serviceCode');
+            serviceCode.value = response.data.serviceCode;
+            serviceCode.disabled = true;
+            // 부모 서비스 코드
+            const pServiceCode = document.getElementById('pServiceCode');
+            pServiceCode.value = response.data.pserviceCode;
+            pServiceCode.disabled = true;
+            // 서비스 이름
+            const serviceName = document.getElementById('serviceName');
+            serviceName.value = response.data.serviceName;
+            // 사용 여부
+            const useYn = document.getElementById('useYn');
+            useYn.checked = response.data.useYn;
+            // 출력 순서
+            const seqNum = document.getElementById('seqNum');
+            seqNum.value = response.data.seqNum;
+            // 서비스 설명
+            const serviceDesc = document.getElementById('serviceDesc');
+            serviceDesc.value = response.data.serviceDesc;
+            // 가용 목표
+            const avaGoal = document.getElementById('avaGoal');
+            avaGoal.value = response.data.avaGoal;
+            // 서비스 시작일자
+            const startDt = document.getElementById('startDate');
+            startDt.value = response.data.startDate;
+            // 서비스 종료일자
+            const endDt = document.getElementById('endDate');
+            endDt.value = response.data.endDate;
+
+            // 편집 가능 여부에 따른 처리
+            if (response.data.editable) {
+                if (document.querySelector('#btnUpdate') != null) {
+                    document.querySelector('#btnUpdate').removeAttribute('disabled');
+                }
+                const editInputElems = document.querySelector('.page-edit').querySelectorAll('input[type=text]');
+                editInputElems.forEach((elem) => {
+                    elem.readOnly = !response.data.editable;
+                });
+                const editTextareaElems = document.querySelector('.page-edit').querySelectorAll('.textarea');
+                editTextareaElems.forEach((elem) => {
+                    elem.classList.remove('textarea-readonly');
+                });
+                serviceDesc.readOnly = false;
+                avaGoal.readOnly = false;
+                useYn.disabled = false;
+                serviceCode.previousElementSibling.classList.add('required');
+                pServiceCode.previousElementSibling.classList.add('required');
+                serviceName.previousElementSibling.classList.add('required');
+            } else {
+                if (document.querySelector('#btnUpdate') != null) {
+                    document.getElementById('btnUpdate').disabled = true;
+                }
+                const editInputElems = document.querySelector('.page-edit').querySelectorAll('input[type=text]');
+                editInputElems.forEach((elem) => {
+                    elem.readOnly = !response.data.editable;
+                });
+                const editTextareaElems = document.querySelector('.page-edit').querySelectorAll('.textarea');
+                editTextareaElems.forEach((elem) => {
+                    elem.classList.add('textarea-readonly');
+                });
+                serviceDesc.readOnly = true;
+                avaGoal.readOnly = true;
+                useYn.disabled = true;
+                serviceCode.previousElementSibling.classList.remove('required');
+                pServiceCode.previousElementSibling.classList.remove('required');
+                serviceName.previousElementSibling.classList.remove('required');
+            }
+            onEdit();
+            observer.isChanged = false;
+        });
+    }
+
+    /** service 추가 **/
+    function onCreate() {
+        if (!observer.canPageChange()) { return false; }
+
+        if (document.querySelector('#btnUpdate') != null) {
+            document.querySelector('#btnUpdate').style.display = 'none';
+        }
+        if (document.querySelector('#btnRegist') != null) {
+            document.querySelector('#btnRegist').style.display = 'block';
+        }
+        const editElems = document.querySelector('.page-edit').querySelectorAll('input[type=text]');
+        editElems.forEach((elem) => {
+            elem.readOnly = false;
+            elem.value = '';
+        });
+        const editTextareaElems = document.querySelector('.page-edit').querySelectorAll('.textarea');
+        editTextareaElems.forEach((elem) => {
+            elem.classList.remove('textarea-readonly');
+            elem.value = '';
+        });
+        document.getElementById('serviceDesc').readOnly = false;
+        document.getElementById('avaGoal').readOnly = false;
+        document.getElementById('useYn').disabled = false;
+
+        // 서비스 코드
+        const serviceCode = document.getElementById('serviceCode');
+        serviceCode.disabled = false;
+        serviceCode.previousElementSibling.classList.add('required');
+        // 부모 서비스 코드
+        const pServiceCode = document.getElementById('pServiceCode');
+        pServiceCode.previousElementSibling.classList.add('required');
+        // 서비스 이름
+        const serviceName = document.getElementById('serviceName');
+        serviceName.previousElementSibling.classList.add('required');
+        // 서비스 시작일자 기본값
+        document.getElementById('startDate').value = startDate;
+
+        let selectedNode = tree.getTreeSelectNode();
+        if (selectedNode !== null) {
+            document.getElementById('pServiceCode').value = selectedNode.id;
+        }
+        observer.isChanged = false;
+    }
+
+    function onEdit() {
+        if (document.querySelector('#btnUpdate') != null) {
+            document.querySelector('#btnUpdate').style.display = 'block';
+        }
+        if (document.querySelector('#btnRegist') != null) {
+            document.querySelector('#btnRegist').style.display = 'none';
+        }
+    }
+
+    /** service 저장 **/
+    function onSave(method) {
+        const jsonData = {
+            serviceCode: document.getElementById('serviceCode').value.trim(),
+            pServiceCode: document.getElementById('pServiceCode').value.trim(),
+            serviceName: document.getElementById('serviceName').value.trim(),
+            serviceDesc: document.getElementById('serviceDesc').value.trim(),
+            avaGoal: document.getElementById('avaGoal').value.trim(),
+            startDate: document.getElementById('startDate').value,
+            endDate: document.getElementById('endDate').value,
+            useYn: document.getElementById('useYn').checked,
+            seqNum: document.getElementById('seqNum').value
+        };
+
+        // 서비스 코드 특수문자 체크
+        if (specialCharInServiceCode.test(jsonData.serviceCode)) {
+            zAlert.warning('[(#{service.msg.checkPositionFormat})]');
+            return false;
+        }
+
+        if (jsonData.serviceCode === null || jsonData.serviceCode.trim() === '') {
+            zAlert.warning('[(#{service.msg.enterServiceCode})]');
+            return false;
+        }
+        if (jsonData.serviceName === null || jsonData.serviceName.trim() === '') {
+            zAlert.warning('[(#{service.msg.enterServiceName})]');
+            return false;
+        }
+
+        let url = '/rest/service-category';
+        if (method === 'PUT') {
+            url += '/' + document.getElementById('serviceCode').value;
+        }
+        const resultMsg = (method === 'POST') ? '[(#{common.msg.register})]' : '[(#{common.msg.update})]';
+        aliceJs.fetchJson(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function() {
+                        window.location.href = '/service-category/edit';
+                    });
+                    break;
+                case aliceJs.response.duplicateServiceCode:
+                    zAlert.warning('[(#{service.msg.duplicateServiceCode})]');
+                    break;
+                case aliceJs.response.duplicateServiceName:
+                    zAlert.warning('[(#{service.msg.duplicateServiceName})]');
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger('[(#{common.msg.fail})]');
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    function setDatePicker(element, picker) {
+        if (element.id === 'startDate') {
+            const endDateValue = document.getElementById('endDate').value;
+            if (endDateValue !== '' && element.value !== '') {
+                if (i18n.systemDate(endDateValue) < i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectBeforeDate', endDateValue), function() {
+                        document.getElementById('startDate').value = startDate;
+                        picker.open();
+                    });
+                }
+            }
+        } else {
+            const startDateValue = document.getElementById('startDate').value;
+            if (startDateValue !== '' && element.value !== '') {
+                if (i18n.systemDate(startDateValue) > i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectAfterDate', startDateValue), function() {
+                        document.getElementById('endDate').value = '';
+                        picker.open();
+                    });
+                }
+            }
+        }
+    }
+    /*]]>*/
+</script>
+</html>
