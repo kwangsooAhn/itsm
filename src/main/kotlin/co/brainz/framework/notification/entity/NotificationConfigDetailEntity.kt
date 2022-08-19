@@ -17,7 +17,7 @@ import javax.persistence.Table
 data class NotificationConfigDetailEntity(
     @Id
     @Column(name = "channel", length = 128)
-    var channel: String,
+    val channel: String,
 
     @Column(name = "use_yn")
     var useYn: Boolean,
@@ -28,7 +28,7 @@ data class NotificationConfigDetailEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notification_code")
-    var notificationConfig: NotificationConfigEntity
+    val notificationConfig: NotificationConfigEntity
 
 ) : Serializable, AliceMetaEntity()
 

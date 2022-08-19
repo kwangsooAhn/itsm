@@ -24,34 +24,34 @@ data class NotificationDataEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "notification_id", length = 128)
-    var notificationId: String = "",
+    val notificationId: String = "",
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "received_user")
-    var receivedUser: AliceUserEntity = AliceUserEntity(),
+    val receivedUser: AliceUserEntity = AliceUserEntity(),
 
     @Column(name = "title", length = 128)
-    var title: String,
+    val title: String,
 
     @Column(name = "message")
-    var message: String,
+    val message: String,
 
     @Column(name = "send_dt")
-    var sendDt: LocalDateTime = LocalDateTime.now(),
+    val sendDt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "channel", length = 128)
-    var channel: String,
+    val channel: String,
 
     @Column(name = "display_dt")
-    var displayDt: LocalDateTime?,
+    val displayDt: LocalDateTime?,
 
     @Column(name = "confirm_dt")
-    var confirmDt: LocalDateTime?,
+    val confirmDt: LocalDateTime?,
 
     @Column(name = "display_yn")
-    var listYn: Boolean?,
+    val listYn: Boolean?,
 
     @Column(name = "url", length = 512)
-    var url: String?
+    val url: String?
 
 ) : Serializable

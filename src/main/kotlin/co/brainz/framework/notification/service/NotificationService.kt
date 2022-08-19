@@ -19,6 +19,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import org.mapstruct.factory.Mappers
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -144,10 +145,10 @@ class NotificationService(
     fun updateNotificationConfig(config: NotificationConfigDto): ZResponse {
         var result = ZResponseConstants.STATUS.SUCCESS
         try {
-            notificationConfigRepository.findByNotificationCode(config.notificationCode)
-                .notificationConfigDetails
-                .sortedByDescending { it.channel } // toast -> sms -> mail 순서로 정렬
-                .forEachIndexed { index, configDetail ->
+            notificationConfigRepository.findByIdOrNull(config.notificationCode)
+                ?.notificationConfigDetails
+                ?.sortedByDescending { it.channel } // toast -> sms -> mail 순서로 정렬
+                ?.forEachIndexed { index, configDetail ->
                     configDetail.useYn = config.notificationConfigDetails!![index].useYn
                     configDetail.configDetail = config.notificationConfigDetails!![index].configDetail
                 }

@@ -8,7 +8,7 @@ package co.brainz.framework.notification.dto
 import java.io.Serializable
 
 data class NotificationConfigDto(
-    var notificationCode: String,
-    var notificationName: String,
+    val notificationCode: String,
+    val notificationName: String,
     var notificationConfigDetails: MutableList<NotificationConfigDetailDto>? = mutableListOf()
 ) : Serializable

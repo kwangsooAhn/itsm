@@ -13,10 +13,10 @@ import javax.persistence.Table
 data class NotificationConfigEntity(
     @Id
     @Column(name = "notification_code", length = 128)
-    var notificationCode: String,
+    val notificationCode: String,
 
     @Column(name = "notification_name", length = 128)
-    var notificationName: String
+    val notificationName: String
 ) : Serializable {
     @OneToMany(mappedBy = "notificationConfig", fetch = FetchType.LAZY)
     val notificationConfigDetails = mutableListOf<NotificationConfigDetailEntity>()
