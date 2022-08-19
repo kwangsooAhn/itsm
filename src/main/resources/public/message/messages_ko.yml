@@ -26,6 +26,7 @@ common:
     search: "검색"
     select: "선택"
     terminate: "종결"
+    test: "테스트"
     toModify: "수정"
     withdraw: "회수"
   label:
@@ -1126,6 +1127,10 @@ menu:
     parent: "FAQ"
   notice:
     parent: "공지사항"
+  notification:
+    config: "알림 발송 관리"
+    parent: "알림 관리"
+    record: "알림 이력 관리"
   setting:
     editMyInfo: "자기정보 수정"
   sla:
@@ -1202,10 +1207,30 @@ notice:
 # Notification
 notification:
   label:
+    aliasInfo: "예약어 안내"
+    channelList: "알림  발송 방법"
+    ciAlias: "CMDB 예약어"
+    ciAttribute: "CI 속성명: $[monitoring_field]"
+    ciCondition: "조건: $[duedate]"
+    ciName: "CI 명: $[ci_no]"
+    ciNumber: "CI 번호: $[ci_no]"
+    documentAlias: "신청서 예약어"
+    documentNumber: "신청서 번호: $[doc_no]"
+    documentStep: "신청서 단계: $[doc_step]"
+    documentType: "신청서 종류: $[doc_type]"
+    mail: "메일"
     notification: "알림"
+    notificationManagement: "알림 발송 관리"
+    sms: "문자"
+    toast: "ITSM 자체 알림"
   msg:
     description: "최대 50개까지 표시됩니다."
+    emailPlaceholder: "이메일*"
+    notificationManagementDescription: "신청서 및 CMDB 관련 이벤트 알림을 설정하고 관리합니다."
+    notJsonType: "{0} 약속된 JSON형식이 아닙니다."
     noNotificationData: "알림이 없습니다."
+    smsPlaceholder: "휴대폰 번호*"
+    toastPlaceholder: "사용자 계정*"
 
 # Organization
 organization:

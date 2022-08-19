@@ -16,10 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping
 class NotificationController(private val notificationService: NotificationService) {
 
     private val notificationListPage: String = "notification/notificationList"
+    private val notificationEditPage: String = "notification/notificationEdit"
+    private val notificationRecordSearch: String = "notification/notificationRecordSearch"
 
     @GetMapping("")
     fun getNotificationList(model: Model): String {
         model.addAttribute("notificationList", notificationService.getNotificationList())
         return notificationListPage
+    }
+
+    // 알람 발송 관리 화면 이동
+    @GetMapping("/edit")
+    fun getNotificationEdit(model: Model): String {
+        model.addAttribute("notificationConfigs", notificationService.getNotificationConfig())
+        return notificationEditPage
+    }
+
+    // 알람 발송 이력 화면 이동
+    @GetMapping("/record")
+    fun getNotificationRecord(model: Model): String {
+        return notificationRecordSearch
     }
 }

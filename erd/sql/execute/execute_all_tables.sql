@@ -655,6 +655,9 @@ insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
 insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values('notification', 'menu', '', 15);
+insert into awf_menu values('notification.config', 'notification', '/notifications/edit', 1);
+insert into awf_menu values('notification.record', 'notification', '/notifications/record', 2);
 
 /**
  * 권한별메뉴매핑
@@ -731,43 +734,9 @@ insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
 insert into awf_menu_auth_map values ('calendar', 'general');
-/**
- * 알림
- */
-DROP TABLE IF EXISTS awf_notification cascade;
-
-CREATE TABLE awf_notification
-(
-	notification_id varchar(128) NOT NULL,
-	received_user varchar(128) NOT NULL,
-	title varchar(128) NOT NULL,
-	message varchar(1024),
-	notification_type varchar(128) DEFAULT 'document',
-	instance_id varchar(128),
-	confirm_yn boolean DEFAULT 'false',
-	display_yn boolean DEFAULT 'false',
-	target varchar(100) DEFAULT 'zitsm',
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	CONSTRAINT awf_notification_pk PRIMARY KEY (notification_id)
-);
-
-COMMENT ON TABLE awf_notification IS '알림';
-COMMENT ON COLUMN awf_notification.notification_id IS '알림아이디';
-COMMENT ON COLUMN awf_notification.received_user IS '수신사용자';
-COMMENT ON COLUMN awf_notification.title IS '제목';
-COMMENT ON COLUMN awf_notification.message IS '메시지';
-COMMENT ON COLUMN awf_notification.notification_type IS '알림타입';
-COMMENT ON COLUMN awf_notification.instance_id IS '인스턴스아이디';
-COMMENT ON COLUMN awf_notification.confirm_yn IS '확인여부';
-COMMENT ON COLUMN awf_notification.display_yn IS '표시여부';
-COMMENT ON COLUMN awf_notification.target IS '대상 시스템';
-COMMENT ON COLUMN awf_notification.create_user_key IS '등록자';
-COMMENT ON COLUMN awf_notification.create_dt IS '등록일';
-COMMENT ON COLUMN awf_notification.update_user_key IS '수정자';
-COMMENT ON COLUMN awf_notification.update_dt IS '수정일';
+insert into awf_menu_auth_map values ('notification', 'system.manage');
+insert into awf_menu_auth_map values ('notification.config', 'system.manage');
+insert into awf_menu_auth_map values ('notification.record', 'system.manage');
 
 /**
  * 넘버링정보
@@ -1564,6 +1533,9 @@ insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌�
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
+insert into awf_url values('/notifications/edit', 'get', '알림 발송 관리 편집', 'TRUE');
+insert into awf_url values('/notifications/record', 'get', '알림 이력 조회', 'TRUE');
+insert into awf_url values('/rest/notifications/config', 'put', '알림 발송 설정 정보 변경', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1964,6 +1936,9 @@ insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get',
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/calendars', 'get', 'general');
+insert into awf_url_auth_map  values ('/notifications/edit', 'get', 'system.manage');
+insert into awf_url_auth_map  values ('/notifications/record', 'get', 'system.manage');
+insert into awf_url_auth_map  values ('/rest/notifications/config', 'put', 'system.manage');
 
 /**
  * 사용자정보
@@ -1972,37 +1947,37 @@ DROP TABLE IF EXISTS awf_user cascade;
 
 CREATE TABLE awf_user
 (
-	user_key varchar(128) NOT NULL,
-	user_id  varchar(128) UNIQUE,
-	user_name  varchar(128),
-	password varchar(128),
-	email  varchar(128) NOT NULL,
-	use_yn boolean DEFAULT 'true',
-	try_login_count int DEFAULT 0,
-	expired_dt date,
-	position varchar(128),
-	department varchar(128),
-	certification_code varchar(128),
-	status varchar(100),
-	office_number varchar(128),
-	mobile_number varchar(128),
-	platform varchar(100),
-	timezone varchar(100),
-	oauth_key varchar(256),
-	lang varchar(100),
-	time_format varchar(100),
-	theme varchar(100) DEFAULT 'default',
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	avatar_type varchar(100),
-	avatar_value varchar(512),
-	uploaded boolean DEFAULT 'false',
-	uploaded_location varchar(512),
+    user_key varchar(128) NOT NULL,
+    user_id  varchar(128) UNIQUE,
+    user_name  varchar(128),
+    password varchar(128),
+    email  varchar(128) NOT NULL,
+    use_yn boolean DEFAULT 'true',
+    try_login_count int DEFAULT 0,
+    expired_dt date,
+    position varchar(128),
+    department varchar(128),
+    certification_code varchar(128),
+    status varchar(100),
+    office_number varchar(128),
+    mobile_number varchar(128),
+    platform varchar(100),
+    timezone varchar(100),
+    oauth_key varchar(256),
+    lang varchar(100),
+    time_format varchar(100),
+    theme varchar(100) DEFAULT 'default',
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    avatar_type varchar(100),
+    avatar_value varchar(512),
+    uploaded boolean DEFAULT 'false',
+    uploaded_location varchar(512),
     user_absence boolean DEFAULT 'false',
-	CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
-	CONSTRAINT awf_user_uk UNIQUE (user_id )
+    CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
+    CONSTRAINT awf_user_uk UNIQUE (user_id )
 );
 
 COMMENT ON TABLE awf_user IS '사용자정보';
@@ -10455,4 +10430,96 @@ INSERT INTO awf_document_role_map VALUES ('4028b21c82343bfb0182345ad3bf002a','ap
 INSERT INTO awf_document_role_map VALUES ('4028b21c82343bfb01823466bff5002b','application-form', 'continuity.manager');
 INSERT INTO awf_document_role_map VALUES ('4028b21c82343bfb01823466bff5002b','application-form', 'system.admin');
 INSERT INTO awf_document_role_map VALUES ('4028b21c82343bfb01823466bff5002b','application-form', 'continuity.admin');
+
+/**
+ * 알람 발송 정보
+ */
+
+DROP TABLE IF EXISTS notification_data cascade;
+
+CREATE TABLE notification_data
+(
+    notification_id   varchar(128) NOT NULL,
+    receiver_user_key varchar(128) NOT NULL,
+    title             varchar(512) NOT NULL,
+    message           text NOT NULL,
+    send_dt           timestamp NOT NULL,
+    channel           varchar(128) NOT NULL,
+    display_dt        timestamp,
+    confirm_dt        timestamp,
+    list_yn           boolean,
+    url               varchar(512),
+    CONSTRAINT notification_data_pk PRIMARY KEY (notification_id)
+);
+
+COMMENT ON TABLE notification_data IS '알람 발송 정보';
+COMMENT ON COLUMN notification_data.notification_id IS '알람 발송 아이디';
+COMMENT ON COLUMN notification_data.receiver_user_key IS '수신자';
+COMMENT ON COLUMN notification_data.title IS '제목';
+COMMENT ON COLUMN notification_data.message IS '메세지';
+COMMENT ON COLUMN notification_data.send_dt IS '발송일시';
+COMMENT ON COLUMN notification_data.channel IS '발송채널';
+COMMENT ON COLUMN notification_data.display_dt IS '디스플레이 일시';
+COMMENT ON COLUMN notification_data.confirm_dt IS '확인 일시';
+COMMENT ON COLUMN notification_data.list_yn IS '리스트 대상 유무';
+COMMENT ON COLUMN notification_data.url IS '링크 URL';
+
+
+/**
+ * 알람 발송관리 설정
+ */
+
+DROP TABLE IF EXISTS notification_config cascade;
+
+CREATE TABLE notification_config
+(
+    notification_code varchar(128) NOT NULL,
+    notification_name varchar(128) NOT NULL,
+    CONSTRAINT notification_config_pk PRIMARY KEY (notification_code)
+);
+
+COMMENT ON TABLE notification_config IS '알람 발송관리 설정';
+COMMENT ON COLUMN notification_config.notification_code IS '알람 발송관리 코드';
+COMMENT ON COLUMN notification_config.notification_name IS '알람 발송관리 명';
+
+INSERT INTO notification_config VALUES('document', '신청서');
+INSERT INTO notification_config VALUES('cmdbLicense', 'CMDB');
+
+/**
+ * 알람 발송관리 설정
+ */
+
+DROP TABLE IF EXISTS notification_config_detail cascade;
+
+CREATE TABLE notification_config_detail
+(
+    notification_code   varchar(128) NOT NULL,
+    channel             varchar(128) NOT NULL,
+    use_yn              boolean NOT NULL,
+    config_detail       text,
+    create_user_key     varchar(128),
+    create_dt           timestamp,
+    update_user_key     varchar(128),
+    update_dt           timestamp,
+
+    CONSTRAINT notification_config_detail_pk PRIMARY KEY (notification_code, channel),
+    CONSTRAINT notification_config_detail_fk FOREIGN KEY (notification_code) REFERENCES notification_config (notification_code)
+);
+
+COMMENT ON TABLE notification_config_detail IS 'notification_config_detail';
+COMMENT ON COLUMN notification_config_detail.notification_code IS '알람 발송관리 코드';
+COMMENT ON COLUMN notification_config_detail.channel IS '발송 채널';
+COMMENT ON COLUMN notification_config_detail.use_yn IS '사용 여부';
+COMMENT ON COLUMN notification_config_detail.config_detail IS '설정 정보';
+COMMENT ON COLUMN notification_config_detail.create_user_key IS '생성자';
+COMMENT ON COLUMN notification_config_detail.create_dt IS '생성 일시';
+COMMENT ON COLUMN notification_config_detail.update_user_key IS '수정자';
+COMMENT ON COLUMN notification_config_detail.update_dt IS '수정 일시';
+
+insert into notification_config_detail values('document', 'Toast', true, '{"title": "$[doc_type] $[doc_no]","message": "$[doc_step]"}','0509e09412534a6e98f04ca79abb6424',now(),null,null);
+insert into notification_config_detail values('document', 'SMS', true, '{"title": "$[doc_type] $[doc_no] 처리안내","message": "$[doc_no] 처리바랍니다"}','0509e09412534a6e98f04ca79abb6424',now(),null,null);
+insert into notification_config_detail values('document', 'E-mail', true, '{"title": "$[doc_type] $[doc_no] 처리안내","message": "$[doc_no] 처리바랍니다", "template": "document_mail_template.html", "url":["https://127.0.0.1/portals/main"] }','0509e09412534a6e98f04ca79abb6424',now(),null,null);
+insert into notification_config_detail values('cmdbLicense', 'Toast', true, '{"title": "$[ci_no] $[ci_name]","message": "$[monitoring_field] $[duedate]"}','0509e09412534a6e98f04ca79abb6424',now(),null,null);
+insert into notification_config_detail values('cmdbLicense', 'SMS', true, '{"title": "$[ci_no] $[ci_name] 안내","message": "$[ci_no] $[ci_name]  $[monitoring_field] $[duedate]"}','0509e09412534a6e98f04ca79abb6424',now(),null,null);
+insert into notification_config_detail values('cmdbLicense', 'E-mail', true, '{"title": "$[ci_no] $[ci_name] 안내","message": "$[ci_no] $[ci_name]  $[monitoring_field] $[duedate]", "template": "cmdb_mail_template.html", "url":["https://127.0.0.1/portals/main"]}','0509e09412534a6e98f04ca79abb6424',now(),null,null);
 

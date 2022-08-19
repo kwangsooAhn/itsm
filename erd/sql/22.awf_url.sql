@@ -401,3 +401,6 @@ insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌�
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
+insert into awf_url values('/notifications/edit', 'get', '알림 발송 관리 편집', 'TRUE');
+insert into awf_url values('/notifications/record', 'get', '알림 이력 조회', 'TRUE');
+insert into awf_url values('/rest/notifications/config', 'put', '알림 발송 설정 정보 변경', 'TRUE');

@@ -63,3 +63,6 @@ insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
 insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values('notification', 'menu', '', 15);
+insert into awf_menu values('notification.config', 'notification', '/notifications/edit', 1);
+insert into awf_menu values('notification.record', 'notification', '/notifications/record', 2);

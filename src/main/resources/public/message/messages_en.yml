@@ -26,6 +26,7 @@ common:
     search: "SEARCH"
     select: "SELECT"
     terminate: "TERMINATE"
+    test: "TEST"
     toModify: "MODIFY"
     withdraw: "WITHDRAW"
   label:
@@ -1126,6 +1127,10 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
+  notification:
+    config: "Notification Configure"
+    parent: "Notification Management"
+    record: "Notification Records"
   setting:
     editMyInfo: "Edit My Info"
   sla:
@@ -1202,10 +1207,30 @@ notice:
 # Notification
 notification:
   label:
+    aliasInfo: "Alias list info"
+    channelList: "Notification Channel List"
+    ciAlias: "CMDB Alias"
+    ciAttribute: "CI Attribute: $[monitoring_field]"
+    ciCondition: "Condition: $[duedate]"
+    ciName: "CI Name: $[ci_no]"
+    ciNumber: "CI Number: $[ci_no]"
+    documentAlias: "Document Alias"
+    documentNumber: "Document Number: $[doc_no]"
+    documentStep: "Document Step: $[doc_step]"
+    documentType: "Document Type: $[doc_type]"
+    mail: "Mail"
     notification: "Notification"
+    notificationManagement: "Notification Management"
+    sms: "SMS"
+    toast: "ITSM Notification"
   msg:
     description: "Up to 50 displays."
+    emailPlaceholder: "E-mail*"
+    notificationManagementDescription: "Set up and manage application and CMDB related event notifications."
+    notJsonType: "{0} is not defined JSON type."
     noNotificationData: "No notifications."
+    smsPlaceholder: "Phone number*"
+    toastPlaceholder: "User ID*"
 
 # Organization
 organization:
@@ -1716,6 +1741,7 @@ user:
     newUserPassword: "New Password"
     newUserRePassword: "New Password Confirm"
     nowUserPassword: "Current Password"
+    notificationChannel: "User Notification Channel"
     officeNumber: "officeNumber"
     password: "Password"
     passwordCheck: "Password Check"
