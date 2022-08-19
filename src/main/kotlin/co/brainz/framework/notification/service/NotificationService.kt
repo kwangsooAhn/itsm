@@ -119,7 +119,7 @@ class NotificationService(
                 notificationName = notificationConfig.notificationName
             )
             // 알람 타입별 채널 상세정보 DTO에 담기
-            val notificationConfigDetails =  mutableListOf<NotificationConfigDetailDto>()
+            val notificationConfigDetails = mutableListOf<NotificationConfigDetailDto>()
             notificationConfig.notificationConfigDetails.forEach { configDetail ->
                 notificationConfigDetails.add(
                     NotificationConfigDetailDto(

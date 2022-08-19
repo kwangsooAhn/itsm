@@ -89,8 +89,8 @@ class DocumentService(
 
         val roleList = mutableListOf<String>()
         roleService.getUserRoleList(aliceUserDto.userKey).forEach { roleList.add(it.roleId) }
-        val validDocumentIds
-            = when (documentSearchCondition.searchDocumentType?.equals(DocumentConstants.DocumentType.DOCUMENT_SEARCH)) {
+        val validDocumentIds =
+            when (documentSearchCondition.searchDocumentType?.equals(DocumentConstants.DocumentType.DOCUMENT_SEARCH)) {
                 true -> aliceDocumentRoleMapRepository.findDocumentIdsByRoles(roleList)
                 else -> mutableListOf()
             }

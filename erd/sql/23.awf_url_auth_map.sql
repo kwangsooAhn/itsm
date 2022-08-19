@@ -410,3 +410,6 @@ insert into awf_url_auth_map values ('/rest/service-category/{id}', 'get', 'serv
 insert into awf_url_auth_map values ('/rest/service-category/{id}', 'get', 'service.view');
 insert into awf_url_auth_map values ('/rest/service-category', 'post', 'service.manage');
 insert into awf_url_auth_map values ('/rest/service-category/{id}', 'put', 'service.manage');
+insert into awf_url_auth_map  values ('/notifications/edit', 'get', 'system.manage');
+insert into awf_url_auth_map  values ('/notifications/record', 'get', 'system.manage');
+insert into awf_url_auth_map  values ('/rest/notifications/config', 'put', 'system.manage');

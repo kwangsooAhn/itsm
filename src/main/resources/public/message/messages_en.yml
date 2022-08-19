@@ -26,6 +26,7 @@ common:
     search: "SEARCH"
     select: "SELECT"
     terminate: "TERMINATE"
+    test: "TEST"
     toModify: "MODIFY"
     withdraw: "WITHDRAW"
   label:
@@ -1212,36 +1213,30 @@ notice:
 # Notification
 notification:
   label:
+    aliasInfo: "Alias list info"
+    channelList: "Notification Channel List"
+    ciAlias: "CMDB Alias"
+    ciAttribute: "CI Attribute: $[monitoring_field]"
+    ciCondition: "Condition: $[duedate]"
+    ciName: "CI Name: $[ci_no]"
+    ciNumber: "CI Number: $[ci_no]"
+    documentAlias: "Document Alias"
+    documentNumber: "Document Number: $[doc_no]"
+    documentStep: "Document Step: $[doc_step]"
+    documentType: "Document Type: $[doc_type]"
+    mail: "Mail"
     notification: "Notification"
+    notificationManagement: "Notification Management"
+    sms: "SMS"
+    toast: "ITSM Notification"
   msg:
     description: "Up to 50 displays."
+    emailPlaceholder: "E-mail*"
+    notificationManagementDescription: "Set up and manage application and CMDB related event notifications."
+    notJsonType: "{0} is not defined JSON type."
     noNotificationData: "No notifications."
-
-# Organization
-organization:
-  label:
-    organization: "Department"
-    organizationId: "Department Id"
-    description: "Department Description"
-    name: "Department Name"
-    pOrganizationName: "Parent Department Name"
-    role: "Member default role"
-    searchPlaceholder: "Department name"
-    seqNum: "The order of the output"
-    useYn: "Use enable"
-  msg:
-    duplicateOrganizationId: "Duplicate Department Id."
-    duplicateOrganizationName: "Duplicate department name."
-    editDescription: "Add, view and manage department."
-    enterOrganizationId: "Please enter a department Id."
-    enterOrganizationName: "Please enter a department name"
-    failedDeleteUserExist: "Failed to delete a department because of a member."
-    failedDeleteSubOrganization: "Failed to delete a department because of a sub department."
-    enterPOrganizationName: "Please enter a parent department name."
-    pOrganizationNotExist: "Parent organization does not exist."
-    selectAvailableOrganization: "Please select a available department."
-    selectRole: "Please select a member default role."
-    systemUserNotExist: "You cannot modify because you need at least one user with the system administrator role."
+    smsPlaceholder: "Phone number*"
+    toastPlaceholder: "User ID*"
 
 # Portal
 portal:

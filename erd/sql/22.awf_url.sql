@@ -407,3 +407,6 @@ insert into awf_url values ('/rest/service-category', 'get', '서비스 카테�
 insert into awf_url values ('/rest/service-category/{id}', 'get', '서비스 카테고리 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/service-category', 'post', '서비스 카테고리 등록', 'TRUE');
 insert into awf_url values ('/rest/service-category/{id}', 'put', '서비스 카테고리 수정', 'TRUE');
+insert into awf_url values('/notifications/edit', 'get', '알림 발송 관리 편집', 'TRUE');
+insert into awf_url values('/notifications/record', 'get', '알림 이력 조회', 'TRUE');
+insert into awf_url values('/rest/notifications/config', 'put', '알림 발송 설정 정보 변경', 'TRUE');

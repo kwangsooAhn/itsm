@@ -852,3 +852,22 @@ function isFileName(elementId, messageId, callbackFunc) {
     }
     return false;
 }
+
+/**
+ * Json타입인지 확인하고 Json의 Key리스트들이 있는지 확인한다.
+ * @returns {boolean}
+ */
+function isJson(jsonData, keyList) {
+    let json;
+    try {
+        json = JSON.parse(jsonData);
+    } catch (e) {
+        return false;
+    }
+    for (let i = 0 ; i < keyList.length ; i ++) {
+        if (!json.hasOwnProperty(keyList[i])) {
+            return false;
+        }
+    }
+    return true;
+}
