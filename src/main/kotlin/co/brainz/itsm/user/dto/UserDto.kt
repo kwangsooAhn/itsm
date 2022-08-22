@@ -34,7 +34,7 @@ class   UserDto(
     var avatarSize: Long = 0L,
     var absenceYn: Boolean = false,
     var absence: UserAbsenceDto = UserAbsenceDto(),
-    var notificationChannel: UserNotificationChannelDto = UserNotificationChannelDto(),
+  //  var notificationChannel: UserNotificationChannelDto = UserNotificationChannelDto(),
     var createDt: LocalDateTime? = null,
     var updateDt: LocalDateTime? = null,
     var totalCount: Long = 0L
